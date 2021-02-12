@@ -52,7 +52,7 @@ const MediaCard = ({
           <Typography gutterBottom variant="h5" component="h2">
             {title}
           </Typography>
-          <p
+          <div
             className={classes.description}
             dangerouslySetInnerHTML={{ __html: description }}
           />
