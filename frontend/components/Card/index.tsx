@@ -6,6 +6,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import {useRouter} from "next/router";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 
 type Props = {
@@ -15,6 +16,7 @@ type Props = {
   imgURL: string;
   cardWidth: number;
   imgHeight: number;
+  link: string;
 };
 
 const MediaCard = ({
@@ -24,6 +26,7 @@ const MediaCard = ({
   imgURL,
   cardWidth,
   imgHeight,
+  link,
 }: Props) => {
   const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -35,12 +38,12 @@ const MediaCard = ({
       },
       description: {
         ...theme.typography.body2,
-        color: theme.palette.text.secondary
+        color: theme.palette.text.secondary,
       },
     })
   );
   const classes = useStyles();
-
+  const router = useRouter();
   return (
     <Card className={classes.root}>
       <CardActionArea>
@@ -56,10 +59,10 @@ const MediaCard = ({
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
+        {/* <Button size="small" color="primary">
           Share
-        </Button>
-        <Button size="small" color="primary">
+        </Button> */}
+        <Button size="small" color="primary" onClick={() => {router.push(link)}}>
           Learn More
         </Button>
       </CardActions>
