@@ -46,6 +46,9 @@ const IndexPage = () => {
       ))}
 
       {posts.map((item: any) => (
+        <div>
+        <h1>{item.id}</h1>
+        
         <MediaCard
           title={item.title}
           description={item.excerpt || "Lizards are a widespread group of squamate reptiles, with over 6,000 species, rangin across all continents except Antarctica"}
@@ -54,6 +57,7 @@ const IndexPage = () => {
           cardWidth={345}
           imgHeight={140}
           />
+          </div>
       ))}
       <p>
         <Link href="/about">
