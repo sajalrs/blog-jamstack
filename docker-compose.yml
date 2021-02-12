@@ -31,6 +31,8 @@ services:
     frontend:
         command: bash -c 'yarn && yarn dev'
         container_name: frontend
+        depends_on:
+            - db-headless
         expose:
             - '3000'
         image: node
