@@ -49,8 +49,6 @@ wp plugin install --activate --force \
     advanced-custom-fields \
     custom-post-type-ui \
     wordpress-importer \
-    wp-rest-api-v2-menus \
-    jwt-authentication-for-wp-rest-api \
     https://github.com/wp-graphql/wp-graphql/archive/v0.3.6.zip \
     https://github.com/wp-graphql/wp-graphql-jwt-authentication/archive/V0.3.2.zip \
     /var/www/plugins/*.zip
