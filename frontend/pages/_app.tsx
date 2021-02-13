@@ -9,6 +9,7 @@ import createCache from '@emotion/cache';
 import theme from '../src/theme';
 import { ApolloProvider } from '@apollo/client'
 import { useApollo } from '../lib/apolloClient'
+import '../styles/index.css'
 
 export const cache = createCache({ key: 'css', prepend: true });
 

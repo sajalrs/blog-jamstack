@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Layout from "../components/Layout";
 import { initializeApollo, addApolloState } from "../lib/apolloClient";
 import { gql, useQuery, NetworkStatus } from "@apollo/client";
@@ -30,10 +29,9 @@ const IndexPage = () => {
   });
 
   const loadingArticle = networkStatus === NetworkStatus.fetchMore;
-  console.log(data.posts.nodes.excerpt);
   if (loading && !loadingArticle) {
     return (
-      <Layout title="Home | Next.js + TypeScript Example">
+      <Layout title="Loading | Next.js + TypeScript Example">
         <MediaCard
           title={"Loading..."}
           description={"Loading..."}
@@ -50,8 +48,12 @@ const IndexPage = () => {
     const posts = data.posts.nodes;
     return (
       <Layout title="Home | Next.js + TypeScript Example">
+        <div className="flex items-center">
         {posts.map((item: any, index: number) => (
-          <MediaCard
+          
+
+          
+<MediaCard
             key={index}
             title={item.title}
             description={item.excerpt || ""}
@@ -62,11 +64,7 @@ const IndexPage = () => {
             link={`posts/${item.id}`}
           />
         ))}
-        <p>
-          <Link href="/about">
-            <a>About</a>
-          </Link>
-        </p>
+        </div>
       </Layout>
     );
   }
