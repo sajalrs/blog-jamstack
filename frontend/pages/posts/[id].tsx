@@ -56,12 +56,17 @@ const StaticPropsDetail = ({ post, errors }: Props) => {
         post ? post.title : "User Detail"
       } | Next.js + TypeScript Example`}
     >
+      <div className="flex justify-center items-center max-w-full">
+
+   
       {post && <div
+        className="m-4 max-w-4xl"
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{
           __html: post.content,
         }}
       />}
+         </div>
     </Layout>
   );
 };
