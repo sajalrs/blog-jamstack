@@ -11,6 +11,8 @@ services:
         image: mariadb
         ports:
             - '3307:3306'
+        volumes: 
+            - db_data:/var/lib/mysql
     wp-headless:
         build: .
         command: bash -c 'install_wordpress && apache2-foreground'
@@ -42,3 +44,5 @@ services:
         volumes:
             - ./frontend:/home/node/app
         working_dir: /home/node/app
+volumes: 
+    db_data:

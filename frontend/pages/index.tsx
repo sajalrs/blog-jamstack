@@ -48,23 +48,25 @@ const IndexPage = () => {
     const posts = data.posts.nodes;
     return (
       <Layout title="Home | Next.js + TypeScript Example">
-        <div className="flex items-center">
+        <div className="flex flex-col items-center">
         {posts.map((item: any, index: number) => (
           
 
-          
+          <div className="m-4">
 <MediaCard
             key={index}
             title={item.title}
             description={item.excerpt || ""}
             imgTitle={item.title}
-            imgURL={item.featuredImage.sourceUrl || "image_not_found.png"}
+            imgURL={item.featuredImage? item.featuredImage.sourceUrl : "image_not_found.png"}
             cardWidth={345}
             imgHeight={140}
             link={`posts/${item.id}`}
           />
+          </div>
         ))}
         </div>
+        
       </Layout>
     );
   }
