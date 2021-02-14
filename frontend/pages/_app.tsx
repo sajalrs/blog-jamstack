@@ -32,6 +32,12 @@ export default function MyApp(props: AppProps) {
         <title>My page</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
+      <style jsx global>{`
+      html {
+        max-width: 100vw;
+        overflow-x: hidden
+      }
+    `}</style>
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
