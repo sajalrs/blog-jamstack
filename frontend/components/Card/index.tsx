@@ -46,7 +46,7 @@ const MediaCard = ({
   const router = useRouter();
   return (
     <Card className={classes.root}>
-      <CardActionArea>
+      <CardActionArea onClick={() => {router.push(link)}}>
         <CardMedia className={classes.media} image={imgURL} title={imgTitle} />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
