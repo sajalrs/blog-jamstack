@@ -2,7 +2,7 @@ import Layout from "../../components/Layout";
 import { initializeApollo } from "../../lib/apolloClient";
 import { gql } from "@apollo/client";
 import { GetStaticProps, GetStaticPaths } from "next";
-
+import Typography from "@material-ui/core/Typography";
 const POST_QUERY = gql`
   query PostQuery($id: ID!) {
     postBy(id: $id) {
@@ -57,19 +57,18 @@ const StaticPropsDetail = ({ post, errors }: Props) => {
       } | Next.js + TypeScript Example`}
     >
       <div className="flex justify-center items-center max-w-full">
-
-   
-      <div
-        className="m-4 max-w-4xl">
-        <h1>{post?.title}</h1>
-        <div
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{
-          __html: post?.content!!,
-        }}
-      />
+        <div className="m-4 max-w-4xl">
+          <Typography gutterBottom variant="h5" component="h2">
+            {post?.title}
+          </Typography>
+          <div
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{
+              __html: post?.content!!,
+            }}
+          />
+        </div>
       </div>
-         </div>
     </Layout>
   );
 };
