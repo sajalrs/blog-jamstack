@@ -59,13 +59,16 @@ const StaticPropsDetail = ({ post, errors }: Props) => {
       <div className="flex justify-center items-center max-w-full">
 
    
-      {post && <div
-        className="m-4 max-w-4xl"
+      <div
+        className="m-4 max-w-4xl">
+        <h1>{post?.title}</h1>
+        <div
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{
-          __html: post.content,
+          __html: post?.content!!,
         }}
-      />}
+      />
+      </div>
          </div>
     </Layout>
   );
