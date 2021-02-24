@@ -82,7 +82,6 @@ MyDocument.getInitialProps = async (ctx) => {
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: styles.css }}
       />,
-  
     ],
   };
 };

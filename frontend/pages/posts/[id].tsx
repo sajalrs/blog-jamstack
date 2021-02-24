@@ -3,6 +3,8 @@ import { initializeApollo } from "../../lib/apolloClient";
 import { gql } from "@apollo/client";
 import { GetStaticProps, GetStaticPaths } from "next";
 import Typography from "@material-ui/core/Typography";
+import postStyles from "./post.module.scss";
+
 const POST_QUERY = gql`
   query PostQuery($id: ID!) {
     postBy(id: $id) {
@@ -56,7 +58,7 @@ const StaticPropsDetail = ({ post, errors }: Props) => {
         post ? post.title : "User Detail"
       } | Next.js + TypeScript Example`}
     >
-      <div className="flex justify-center items-center max-w-full">
+      <div className={`${postStyles["post"]} flex justify-center items-center max-w-full`}>
         <div className="m-4 max-w-4xl">
           <Typography gutterBottom variant="h5" component="h2">
             {post?.title}
