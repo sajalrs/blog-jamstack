@@ -1,0 +1,54 @@
+.post {
+    body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, sans-serif;
+  }
+  
+  p,
+  ul,
+  ol {
+    line-height: 1.5rem;
+  }
+
+  figure{
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+  }
+  
+  p, figure{
+      margin-bottom: 0.5rem;
+  }
+
+  img{
+      max-width: 640px;
+  }
+
+  figcaption{
+      padding: 0.5rem;
+  }
+
+  h2 {
+    // border-top: 4px solid black;
+    padding-top: 12px;
+  }
+  
+  a {
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  
+  ul {
+    list-style: none;
+    padding-left: 1.5rem;
+  }
+  
+  li {
+    padding: 1rem 0;
+  }
+}
