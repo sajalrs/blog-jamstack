@@ -79,7 +79,7 @@ const ITEMS_PER_PAGE = 3;
 
 const IndexPage = ({ posts, errors, numOfPages }: Props) => {
   const router = useRouter();
-  const pageNumber = parseInt(router.query.page.toString()) ?? 1;
+  const pageNumber = parseInt(router.query.page.toString());
   if (errors) {
     return (
       <Layout title="Error | Next.js + TypeScript Example">
@@ -113,16 +113,13 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
           );
         })}
         <div>
-          {pageNumber !== 1 ? (
-            <IconButton
-              onClick={() => {
-                router.push(`/${pageNumber - 1}`);
-              }}
-            >
-              <NavigateBeforeIcon />
-            </IconButton>
-          ) : null}
-
+          <IconButton
+            onClick={() => {
+              router.push(pageNumber === 2 ? "/" : `/${pageNumber - 1}`);
+            }}
+          >
+            <NavigateBeforeIcon />
+          </IconButton>
           {pageNumber !== numOfPages ? (
             <IconButton
               onClick={() => {
@@ -149,7 +146,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   });
   let paths = [];
   const numOfPages = Math.ceil(data.posts.edges.length / ITEMS_PER_PAGE);
-  for (let i = 1; i <= numOfPages; i++) {
+  for (let i = 2; i <= numOfPages; i++) {
     paths.push({ params: { page: i.toString() } });
   }
 
@@ -166,25 +163,29 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         query: CURSORS_QUERY,
         context: { clientName: "wordPress" },
       })
-      .then((res) => [res.data.posts.edges[0],
+      .then((res) => [
+        res.data.posts.edges[0],
         ...res.data.posts.edges.filter(
-          (_: string, index: number) => (index+1) % ITEMS_PER_PAGE === 0
-        )]
-      );
+          (_: string, index: number) => (index + 1) % ITEMS_PER_PAGE === 0
+        ),
+      ]);
 
     const { data } = await apolloClient.query({
       query: POSTS_QUERY,
       variables: {
         first: ITEMS_PER_PAGE,
         last: null,
-        after: page === 1? null : cursors[page-1].cursor,
+        after: cursors[page - 1].cursor,
         before: null,
       },
       context: { clientName: "wordPress" },
     });
 
     return addApolloState(apolloClient, {
-      props: { posts: data.posts.edges.map((edge: {node: Post}) => edge.node), numOfPages: cursors.length },
+      props: {
+        posts: data.posts.edges.map((edge: { node: Post }) => edge.node),
+        numOfPages: cursors.length,
+      },
     });
   } catch (err) {
     return { props: { errors: err.message } };
