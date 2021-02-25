@@ -16,6 +16,7 @@ export const POSTS_QUERY = gql`
           id
         }
         id
+        slug
         excerpt
       }
     }
@@ -61,7 +62,7 @@ const IndexPage = () => {
             imgURL={item.featuredImage? item.featuredImage.sourceUrl : "image_not_found.png"}
             cardWidth={345}
             imgHeight={140}
-            link={`posts/${item.id}`}
+            link={`posts/${item.slug}`}
           />
           </div>
         ))}
