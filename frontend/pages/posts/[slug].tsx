@@ -41,7 +41,7 @@ type Props = {
   errors?: string;
 };
 
-const StaticPropsDetail = ({ post, errors }: Props) => {
+const Post = ({ post, errors }: Props) => {
   if (errors) {
     return (
       <Layout title="Error | Next.js + TypeScript Example">
@@ -75,7 +75,7 @@ const StaticPropsDetail = ({ post, errors }: Props) => {
   );
 };
 
-export default StaticPropsDetail;
+export default Post;
 
 export const getStaticPaths: GetStaticPaths = async () => {
   // Get the paths we want to pre-render based on users
