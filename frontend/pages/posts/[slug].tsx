@@ -1,5 +1,5 @@
 import Layout from "../../components/Layout";
-import { initializeApollo } from "../../lib/apolloClient";
+import { addApolloState, initializeApollo } from "../../lib/apolloClient";
 import { gql } from "@apollo/client";
 import { GetStaticProps, GetStaticPaths } from "next";
 import Typography from "@material-ui/core/Typography";
@@ -113,7 +113,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
     // By returning { props: item }, the StaticPropsDetail component
     // will receive `item` as a prop at build time
-    return { props: { post: data.postBy } };
+    return addApolloState(apolloClient, { props: { post: data.postBy } });
   } catch (err) {
     return { props: { errors: err.message } };
   }
