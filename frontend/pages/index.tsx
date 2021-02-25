@@ -11,8 +11,6 @@ export const POSTS_QUERY = gql`
   query postsQuery($first: Int, $last: Int, $after: String, $before: String) {
     posts(first: $first, last: $last, after: $after, before: $before) {
       pageInfo {
-        hasNextPage
-        hasPreviousPage
         startCursor
         endCursor
       }
