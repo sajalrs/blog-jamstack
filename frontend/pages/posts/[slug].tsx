@@ -17,7 +17,7 @@ const POST_QUERY = gql`
   }
 `;
 
-export const POSTS_ID_QUERY = gql`
+export const POSTS_SLUG_QUERY = gql`
   query postsQuery {
     posts {
       nodes {
@@ -83,7 +83,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const apolloClient = initializeApollo();
 
   const { data } = await apolloClient.query({
-    query: POSTS_ID_QUERY,
+    query: POSTS_SLUG_QUERY,
     context: { clientName: "wordPress" },
   });
 
