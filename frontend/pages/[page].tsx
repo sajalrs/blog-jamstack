@@ -77,13 +77,6 @@ export const CURSORS_QUERY = gql`
 
 const ITEMS_PER_PAGE = 3;
 
-const updateQuery = (
-  previousResult: FetchResult,
-  { fetchMoreResult }: { fetchMoreResult?: any }
-) => {
-  return fetchMoreResult.posts.edges.length ? fetchMoreResult : previousResult;
-};
-
 const IndexPage = ({ posts, errors, numOfPages }: Props) => {
   const router = useRouter();
   const pageNumber = parseInt(router.query.page.toString()) ?? 1;
@@ -156,7 +149,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   });
   let paths = [];
   const numOfPages = Math.ceil(data.posts.edges.length / ITEMS_PER_PAGE);
-  for (let i = 0; i < numOfPages; i++) {
+  for (let i = 1; i <= numOfPages; i++) {
     paths.push({ params: { page: i.toString() } });
   }
 
@@ -173,10 +166,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         query: CURSORS_QUERY,
         context: { clientName: "wordPress" },
       })
-      .then((res) =>
-        res.data.posts.edges.filter(
-          (_: string, index: number) => index % ITEMS_PER_PAGE === 0
-        )
+      .then((res) => [res.data.posts.edges[0],
+        ...res.data.posts.edges.filter(
+          (_: string, index: number) => (index+1) % ITEMS_PER_PAGE === 0
+        )]
       );
 
     const { data } = await apolloClient.query({
@@ -184,12 +177,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       variables: {
         first: ITEMS_PER_PAGE,
         last: null,
-        after: cursors[page-1].cursor,
+        after: page === 1? null : cursors[page-1].cursor,
         before: null,
       },
       context: { clientName: "wordPress" },
     });
-
 
     return addApolloState(apolloClient, {
       props: { posts: data.posts.edges.map((edge: {node: Post}) => edge.node), numOfPages: cursors.length },
