@@ -5,7 +5,7 @@ import IconButton from "@material-ui/core/IconButton";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import { GetStaticProps } from "next";
 import { useRouter } from "next/router";
-import { CURSORS_QUERY, POSTS_QUERY } from "./[page]";
+import { CURSORS_QUERY, POSTS_QUERY, ITEMS_PER_PAGE } from "./[page]";
 
 type Post = {
   date: string;
@@ -27,8 +27,6 @@ type Props = {
   errors?: string;
   numOfPages?: number;
 };
-
-const ITEMS_PER_PAGE = 3;
 
 const IndexPage = ({ posts, errors, numOfPages }: Props) => {
   const router = useRouter();
