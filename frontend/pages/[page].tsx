@@ -5,7 +5,6 @@ import MediaCard from "../components/Card";
 import IconButton from "@material-ui/core/IconButton";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
-import { FetchResult } from "apollo-link";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 
@@ -75,7 +74,7 @@ export const CURSORS_QUERY = gql`
   }
 `;
 
-const ITEMS_PER_PAGE = 3;
+export const ITEMS_PER_PAGE = 2;
 
 const IndexPage = ({ posts, errors, numOfPages }: Props) => {
   const router = useRouter();
