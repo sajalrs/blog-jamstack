@@ -34,6 +34,7 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
   let navigablePages = [];
   navigablePages.push(
     <IconButton
+    disabled
       onClick={() => {
         router.push(`/`);
       }}
