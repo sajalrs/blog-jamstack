@@ -11,7 +11,6 @@ import {
   CURSORS_QUERY,
   POSTS_QUERY,
   ITEMS_PER_PAGE,
-  NUM_OF_NAV_PAGES,
   Post,
 } from "./[page]";
 
