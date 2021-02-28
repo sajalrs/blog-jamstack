@@ -4,6 +4,7 @@ import MediaCard from "../components/Card";
 import { GetStaticProps } from "next";
 import PageNav from "../components/PageNav";
 import { Post } from "../interfaces";
+import PostsList from "../components/PostsList"
 import {
   CURSORS_QUERY,
   POSTS_QUERY,
@@ -29,29 +30,7 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
 
   return (
     <Layout title="Home | Next.js + TypeScript Example">
-      <div className="flex flex-col items-center">
-        {posts!.map((post: Post, index: number) => {
-          return (
-            <div className="m-4">
-              <MediaCard
-                key={index}
-                title={post.title}
-                description={post.excerpt || ""}
-                imgTitle={post.title}
-                imgURL={
-                  post.featuredImage
-                    ? post.featuredImage.sourceUrl
-                    : "image_not_found.png"
-                }
-                cardWidth={345}
-                imgHeight={140}
-                link={`posts/${post.slug}`}
-              />
-            </div>
-          );
-        })}
-          <PageNav pageNumber={1} numOfPages={numOfPages}/>
-      </div>
+      <PostsList posts={posts!} pageNumber={1} numOfPages={numOfPages}/>
     </Layout>
   );
 };
