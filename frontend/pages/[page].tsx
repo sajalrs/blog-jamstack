@@ -3,9 +3,9 @@ import { initializeApollo, addApolloState } from "../lib/apolloClient";
 import { gql } from "@apollo/client";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
-import PostsList from "../components/PostsList";
+import PostsList, {ITEMS_PER_PAGE} from "../components/PostsList";
 import { Post } from "../interfaces";
-export const ITEMS_PER_PAGE = 3;
+
 
 export const POSTS_QUERY = gql`
   query postsQuery($first: Int, $last: Int, $after: String, $before: String) {
