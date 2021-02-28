@@ -9,7 +9,7 @@ type Props = {
 };
 
 const PostsList = ({ posts, pageNumber, numOfPages }: Props) => {
-  <div className="flex flex-col items-center">
+  return (<div className="flex flex-col items-center">
     {posts!.map((post: Post, index: number) => {
       return (
         <div className="m-4">
@@ -31,7 +31,7 @@ const PostsList = ({ posts, pageNumber, numOfPages }: Props) => {
       );
     })}
     <PageNav pageNumber={pageNumber} numOfPages={numOfPages} />
-  </div>;
+  </div>);
 };
 
 export default PostsList;
