@@ -1,10 +1,7 @@
 import Layout from "../components/Layout";
 import { initializeApollo, addApolloState } from "../lib/apolloClient";
 import MediaCard from "../components/Card";
-import IconButton from "@material-ui/core/IconButton";
-import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import { GetStaticProps } from "next";
-import { useRouter } from "next/router";
 import PageNav from "../components/PageNav";
 
 import {
@@ -21,7 +18,6 @@ type Props = {
 };
 
 const IndexPage = ({ posts, errors, numOfPages }: Props) => {
-  const router = useRouter();
   if (errors) {
     return (
       <Layout title="Error | Next.js + TypeScript Example">
@@ -32,40 +28,6 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
     );
   }
 
-  // let navigablePages = [];
-  // navigablePages.push(
-  //   <IconButton
-  //   disabled
-  //     onClick={() => {
-  //       router.push(`/`);
-  //     }}
-  //   >
-  //     {1}
-  //   </IconButton>
-  // );
-  // for (let i = 2; i <= Math.min(NUM_OF_NAV_PAGES, numOfPages); i++) {
-  //   navigablePages.push(
-  //     <IconButton
-  //       onClick={() => {
-  //         router.push(`/${i}`);
-  //       }}
-  //     >
-  //       {i}
-  //     </IconButton>
-  //   );
-  // }
-
-  // if(numOfPages > NUM_OF_NAV_PAGES){
-  //   navigablePages.push(
-  //     <IconButton
-  //       onClick={() => {
-  //         router.push(`/${NUM_OF_NAV_PAGES + 1}`);
-  //       }}
-  //     >
-  //       {"..."}
-  //     </IconButton>
-  //   );
-  // }
   return (
     <Layout title="Home | Next.js + TypeScript Example">
       <div className="flex flex-col items-center">
@@ -89,17 +51,6 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
             </div>
           );
         })}
-
-        {/* {navigablePages}
-          { numOfPages > 1 && 
-          <IconButton
-            onClick={() => {
-              router.push(`/${2}`);
-            }}
-          >
-            <NavigateNextIcon />
-          </IconButton>
-          }  */}
 
           <PageNav pageNumber={1} numOfPages={numOfPages}/>
       </div>
