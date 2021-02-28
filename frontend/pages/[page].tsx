@@ -8,7 +8,6 @@ import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 
-
 export const ITEMS_PER_PAGE = 1;
 
 export const NUM_OF_NAV_PAGES = 3;
@@ -57,7 +56,6 @@ type Props = {
   numOfPages: number;
 };
 
-
 export const CURSORS_QUERY = gql`
   query IDQuery {
     posts {
@@ -68,16 +66,19 @@ export const CURSORS_QUERY = gql`
   }
 `;
 
-
 const IndexPage = ({ posts, errors, numOfPages }: Props) => {
   const router = useRouter();
   const pageNumber = parseInt(router.query.page.toString());
 
   let navigablePages = [];
-  let start = (NUM_OF_NAV_PAGES * (Math.ceil(pageNumber/NUM_OF_NAV_PAGES)-1))+1
-  let end = Math.min(NUM_OF_NAV_PAGES * Math.ceil(pageNumber/NUM_OF_NAV_PAGES), numOfPages-1);
-  
-  if(start !== 1){
+  let start =
+    NUM_OF_NAV_PAGES * (Math.ceil(pageNumber / NUM_OF_NAV_PAGES) - 1) + 1;
+  let end = Math.min(
+    NUM_OF_NAV_PAGES * Math.ceil(pageNumber / NUM_OF_NAV_PAGES),
+    numOfPages - 1
+  );
+
+  if (start !== 1) {
     navigablePages.push(
       <IconButton
         onClick={() => {
@@ -89,9 +90,8 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
     );
   }
 
-  for (let i = start;i <= end; i++) {
-
-    if(i === 1){
+  for (let i = start; i <= end; i++) {
+    if (i === 1) {
       navigablePages.push(
         <IconButton
           onClick={() => {
@@ -99,6 +99,17 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
           }}
         >
           1
+        </IconButton>
+      );
+    } else if (pageNumber === i) {
+      navigablePages.push(
+        <IconButton
+          disabled
+          onClick={() => {
+            router.push(`/${i}`);
+          }}
+        >
+          {i}
         </IconButton>
       );
     } else {
@@ -112,11 +123,9 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
         </IconButton>
       );
     }
-
-
   }
 
-  if(end < numOfPages - 1){
+  if (end < numOfPages - 1) {
     navigablePages.push(
       <IconButton
         onClick={() => {
