@@ -3,12 +3,11 @@ import { initializeApollo, addApolloState } from "../lib/apolloClient";
 import MediaCard from "../components/Card";
 import { GetStaticProps } from "next";
 import PageNav from "../components/PageNav";
-
+import { Post } from "../interfaces";
 import {
   CURSORS_QUERY,
   POSTS_QUERY,
   ITEMS_PER_PAGE,
-  Post,
 } from "./[page]";
 
 type Props = {
@@ -51,7 +50,6 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
             </div>
           );
         })}
-
           <PageNav pageNumber={1} numOfPages={numOfPages}/>
       </div>
     </Layout>
