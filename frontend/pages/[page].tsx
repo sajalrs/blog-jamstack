@@ -1,13 +1,11 @@
 import Layout from "../components/Layout";
 import { initializeApollo, addApolloState } from "../lib/apolloClient";
 import { gql } from "@apollo/client";
-import MediaCard from "../components/Card";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
-import PageNav from "../components/PageNav"
-
+import PostsList from "../components/PostsList";
+import { Post } from "../interfaces";
 export const ITEMS_PER_PAGE = 3;
-
 
 export const POSTS_QUERY = gql`
   query postsQuery($first: Int, $last: Int, $after: String, $before: String) {
@@ -31,21 +29,6 @@ export const POSTS_QUERY = gql`
     }
   }
 `;
-
-export type Post = {
-  date: string;
-  featuredImage: {
-    title: string;
-    sourceUrl: string;
-  };
-  title: string;
-  author: {
-    id: string;
-  };
-  id: string;
-  slug: string;
-  excerpt: string;
-};
 
 type Props = {
   posts?: Post[];
@@ -78,29 +61,7 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
   }
   return (
     <Layout title="Home | Next.js + TypeScript Example">
-      <div className="flex flex-col items-center">
-        {posts!.map((post: Post, index: number) => {
-          return (
-            <div className="m-4">
-              <MediaCard
-                key={index}
-                title={post.title}
-                description={post.excerpt || ""}
-                imgTitle={post.title}
-                imgURL={
-                  post.featuredImage
-                    ? post.featuredImage.sourceUrl
-                    : "image_not_found.png"
-                }
-                cardWidth={345}
-                imgHeight={140}
-                link={`posts/${post.slug}`}
-              />
-            </div>
-          );
-        })}
-        <PageNav pageNumber={pageNumber} numOfPages={numOfPages}/>
-      </div>
+      <PostsList posts={posts!} pageNumber={pageNumber} numOfPages={numOfPages} />
     </Layout>
   );
 };
