@@ -7,10 +7,10 @@ import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
+import PageNav from "../components/PageNav"
 
-export const ITEMS_PER_PAGE = 6;
+export const ITEMS_PER_PAGE = 3;
 
-export const NUM_OF_NAV_PAGES = 3;
 
 export const POSTS_QUERY = gql`
   query postsQuery($first: Int, $last: Int, $after: String, $before: String) {
@@ -70,72 +70,72 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
   const router = useRouter();
   const pageNumber = parseInt(router.query.page.toString());
 
-  let navigablePages = [];
-  let start =
-    NUM_OF_NAV_PAGES * (Math.ceil(pageNumber / NUM_OF_NAV_PAGES) - 1) + 1;
-  let end = Math.min(
-    NUM_OF_NAV_PAGES * Math.ceil(pageNumber / NUM_OF_NAV_PAGES),
-    numOfPages
-  );
+  // let navigablePages = [];
+  // let start =
+  //   NUM_OF_NAV_PAGES * (Math.ceil(pageNumber / NUM_OF_NAV_PAGES) - 1) + 1;
+  // let end = Math.min(
+  //   NUM_OF_NAV_PAGES * Math.ceil(pageNumber / NUM_OF_NAV_PAGES),
+  //   numOfPages
+  // );
 
-  if (start !== 1) {
-    navigablePages.push(
-      <IconButton
-        onClick={() => {
-          router.push(`/${start - 1}`);
-        }}
-      >
-        {"..."}
-      </IconButton>
-    );
-  }
+  // if (start !== 1) {
+  //   navigablePages.push(
+  //     <IconButton
+  //       onClick={() => {
+  //         router.push(`/${start - 1}`);
+  //       }}
+  //     >
+  //       {"..."}
+  //     </IconButton>
+  //   );
+  // }
 
-  for (let i = start; i <= end; i++) {
-    if (i === 1) {
-      navigablePages.push(
-        <IconButton
-          onClick={() => {
-            router.push(`/`);
-          }}
-        >
-          1
-        </IconButton>
-      );
-    } else if (pageNumber === i) {
-      navigablePages.push(
-        <IconButton
-          disabled
-          onClick={() => {
-            router.push(`/${i}`);
-          }}
-        >
-          {i}
-        </IconButton>
-      );
-    } else {
-      navigablePages.push(
-        <IconButton
-          onClick={() => {
-            router.push(`/${i}`);
-          }}
-        >
-          {i}
-        </IconButton>
-      );
-    }
-  }
+  // for (let i = start; i <= end; i++) {
+  //   if (i === 1) {
+  //     navigablePages.push(
+  //       <IconButton
+  //         onClick={() => {
+  //           router.push(`/`);
+  //         }}
+  //       >
+  //         1
+  //       </IconButton>
+  //     );
+  //   } else if (pageNumber === i) {
+  //     navigablePages.push(
+  //       <IconButton
+  //         disabled
+  //         onClick={() => {
+  //           router.push(`/${i}`);
+  //         }}
+  //       >
+  //         {i}
+  //       </IconButton>
+  //     );
+  //   } else {
+  //     navigablePages.push(
+  //       <IconButton
+  //         onClick={() => {
+  //           router.push(`/${i}`);
+  //         }}
+  //       >
+  //         {i}
+  //       </IconButton>
+  //     );
+  //   }
+  // }
 
-  if (end < numOfPages - 1) {
-    navigablePages.push(
-      <IconButton
-        onClick={() => {
-          router.push(`/${end + 1}`);
-        }}
-      >
-        {"..."}
-      </IconButton>
-    );
-  }
+  // if (end < numOfPages - 1) {
+  //   navigablePages.push(
+  //     <IconButton
+  //       onClick={() => {
+  //         router.push(`/${end + 1}`);
+  //       }}
+  //     >
+  //       {"..."}
+  //     </IconButton>
+  //   );
+  // }
 
   if (errors) {
     return (
@@ -169,7 +169,7 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
             </div>
           );
         })}
-        <div>
+        {/* <div>
           <IconButton
             onClick={() => {
               router.push(pageNumber === 2 ? "/" : `/${pageNumber - 1}`);
@@ -187,7 +187,8 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
               <NavigateNextIcon />
             </IconButton>
           ) : null}
-        </div>
+        </div> */}
+        <PageNav pageNumber={pageNumber} numOfPages={numOfPages}/>
       </div>
     </Layout>
   );
