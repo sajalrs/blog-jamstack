@@ -8,7 +8,7 @@ import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 
-export const ITEMS_PER_PAGE = 1;
+export const ITEMS_PER_PAGE = 6;
 
 export const NUM_OF_NAV_PAGES = 3;
 
@@ -75,7 +75,7 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
     NUM_OF_NAV_PAGES * (Math.ceil(pageNumber / NUM_OF_NAV_PAGES) - 1) + 1;
   let end = Math.min(
     NUM_OF_NAV_PAGES * Math.ceil(pageNumber / NUM_OF_NAV_PAGES),
-    numOfPages - 1
+    numOfPages
   );
 
   if (start !== 1) {
@@ -178,7 +178,7 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
             <NavigateBeforeIcon />
           </IconButton>
           {navigablePages}
-          {pageNumber !== numOfPages - 1 ? (
+          {pageNumber !== numOfPages ? (
             <IconButton
               onClick={() => {
                 router.push(`/${pageNumber + 1}`);
