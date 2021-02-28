@@ -5,27 +5,18 @@ import IconButton from "@material-ui/core/IconButton";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import { GetStaticProps } from "next";
 import { useRouter } from "next/router";
-import { CURSORS_QUERY, POSTS_QUERY, ITEMS_PER_PAGE } from "./[page]";
-
-type Post = {
-  date: string;
-  featuredImage: {
-    title: string;
-    sourceUrl: string;
-  };
-  title: string;
-  author: {
-    id: string;
-  };
-  id: string;
-  slug: string;
-  excerpt: string;
-};
+import {
+  CURSORS_QUERY,
+  POSTS_QUERY,
+  ITEMS_PER_PAGE,
+  NUM_OF_NAV_PAGES,
+  Post,
+} from "./[page]";
 
 type Props = {
   posts?: Post[];
   errors?: string;
-  numOfPages?: number;
+  numOfPages: number;
 };
 
 const IndexPage = ({ posts, errors, numOfPages }: Props) => {
@@ -37,6 +28,40 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
           <span style={{ color: "red" }}>Error:</span> {errors}
         </p>
       </Layout>
+    );
+  }
+
+  let navigablePages = [];
+  navigablePages.push(
+    <IconButton
+      onClick={() => {
+        router.push(`/`);
+      }}
+    >
+      {1}
+    </IconButton>
+  );
+  for (let i = 2; i <= Math.min(NUM_OF_NAV_PAGES, numOfPages); i++) {
+    navigablePages.push(
+      <IconButton
+        onClick={() => {
+          router.push(`/${i}`);
+        }}
+      >
+        {i}
+      </IconButton>
+    );
+  }
+
+  if(numOfPages > NUM_OF_NAV_PAGES){
+    navigablePages.push(
+      <IconButton
+        onClick={() => {
+          router.push(`/${NUM_OF_NAV_PAGES + 1}`);
+        }}
+      >
+        {"..."}
+      </IconButton>
     );
   }
   return (
@@ -63,16 +88,15 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
           );
         })}
         <div>
+          {navigablePages}
 
-          
-            <IconButton
-              onClick={() => {
-                router.push(`/${2}`);
-              }}
-            >
-              <NavigateNextIcon />
-            </IconButton>
-        
+          <IconButton
+            onClick={() => {
+              router.push(`/${2}`);
+            }}
+          >
+            <NavigateNextIcon />
+          </IconButton>
         </div>
       </div>
     </Layout>

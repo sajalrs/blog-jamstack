@@ -8,6 +8,11 @@ import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 
+
+export const ITEMS_PER_PAGE = 1;
+
+export const NUM_OF_NAV_PAGES = 3;
+
 export const POSTS_QUERY = gql`
   query postsQuery($first: Int, $last: Int, $after: String, $before: String) {
     posts(first: $first, last: $last, after: $after, before: $before) {
@@ -31,7 +36,7 @@ export const POSTS_QUERY = gql`
   }
 `;
 
-type Post = {
+export type Post = {
   date: string;
   featuredImage: {
     title: string;
@@ -49,20 +54,9 @@ type Post = {
 type Props = {
   posts?: Post[];
   errors?: string;
-  numOfPages?: number;
+  numOfPages: number;
 };
 
-// export const ID_QUERY = gql`
-//   query IDQuery {
-//     posts {
-//       edges {
-//         node {
-//           id
-//         }
-//       }
-//     }
-//   }
-// `;
 
 export const CURSORS_QUERY = gql`
   query IDQuery {
@@ -74,11 +68,66 @@ export const CURSORS_QUERY = gql`
   }
 `;
 
-export const ITEMS_PER_PAGE = 2;
 
 const IndexPage = ({ posts, errors, numOfPages }: Props) => {
   const router = useRouter();
   const pageNumber = parseInt(router.query.page.toString());
+
+  let navigablePages = [];
+  let start = (NUM_OF_NAV_PAGES * (Math.ceil(pageNumber/NUM_OF_NAV_PAGES)-1))+1
+  let end = Math.min(NUM_OF_NAV_PAGES * Math.ceil(pageNumber/NUM_OF_NAV_PAGES), numOfPages-1);
+  
+  if(start !== 1){
+    navigablePages.push(
+      <IconButton
+        onClick={() => {
+          router.push(`/${start - 1}`);
+        }}
+      >
+        {"..."}
+      </IconButton>
+    );
+  }
+
+  for (let i = start;i <= end; i++) {
+
+    if(i === 1){
+      navigablePages.push(
+        <IconButton
+          onClick={() => {
+            router.push(`/`);
+          }}
+        >
+          1
+        </IconButton>
+      );
+    } else {
+      navigablePages.push(
+        <IconButton
+          onClick={() => {
+            router.push(`/${i}`);
+          }}
+        >
+          {i}
+        </IconButton>
+      );
+    }
+
+
+  }
+
+  if(end < numOfPages - 1){
+    navigablePages.push(
+      <IconButton
+        onClick={() => {
+          router.push(`/${end + 1}`);
+        }}
+      >
+        {"..."}
+      </IconButton>
+    );
+  }
+
   if (errors) {
     return (
       <Layout title="Error | Next.js + TypeScript Example">
@@ -119,7 +168,8 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
           >
             <NavigateBeforeIcon />
           </IconButton>
-          {pageNumber !== numOfPages ? (
+          {navigablePages}
+          {pageNumber !== numOfPages - 1 ? (
             <IconButton
               onClick={() => {
                 router.push(`/${pageNumber + 1}`);
