@@ -1,15 +1,9 @@
 import Layout from "../components/Layout";
 import { initializeApollo, addApolloState } from "../lib/apolloClient";
-import MediaCard from "../components/Card";
 import { GetStaticProps } from "next";
-import PageNav from "../components/PageNav";
 import { Post } from "../interfaces";
-import PostsList from "../components/PostsList"
-import {
-  CURSORS_QUERY,
-  POSTS_QUERY,
-  ITEMS_PER_PAGE,
-} from "./[page]";
+import PostsList, {ITEMS_PER_PAGE } from "../components/PostsList";
+import { CURSORS_QUERY, POSTS_QUERY} from "./[page]";
 
 type Props = {
   posts?: Post[];
@@ -30,7 +24,7 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
 
   return (
     <Layout title="Home | Next.js + TypeScript Example">
-      <PostsList posts={posts!} pageNumber={1} numOfPages={numOfPages}/>
+      <PostsList posts={posts!} pageNumber={1} numOfPages={numOfPages} />
     </Layout>
   );
 };
