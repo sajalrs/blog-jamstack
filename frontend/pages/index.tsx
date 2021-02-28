@@ -5,6 +5,7 @@ import IconButton from "@material-ui/core/IconButton";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import { GetStaticProps } from "next";
 import { useRouter } from "next/router";
+import PageNav from "../components/PageNav";
 
 import {
   CURSORS_QUERY,
@@ -32,41 +33,40 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
     );
   }
 
-  let navigablePages = [];
-  navigablePages.push(
-    <IconButton
-    disabled
-      onClick={() => {
-        router.push(`/`);
-      }}
-    >
-      {1}
-    </IconButton>
-  );
-  for (let i = 2; i <= Math.min(NUM_OF_NAV_PAGES, numOfPages); i++) {
-    navigablePages.push(
-      <IconButton
-        onClick={() => {
-          router.push(`/${i}`);
-        }}
-      >
-        {i}
-      </IconButton>
-    );
-  }
-  console.log(NUM_OF_NAV_PAGES);
-  console.log(numOfPages);
-  if(numOfPages > NUM_OF_NAV_PAGES){
-    navigablePages.push(
-      <IconButton
-        onClick={() => {
-          router.push(`/${NUM_OF_NAV_PAGES + 1}`);
-        }}
-      >
-        {"..."}
-      </IconButton>
-    );
-  }
+  // let navigablePages = [];
+  // navigablePages.push(
+  //   <IconButton
+  //   disabled
+  //     onClick={() => {
+  //       router.push(`/`);
+  //     }}
+  //   >
+  //     {1}
+  //   </IconButton>
+  // );
+  // for (let i = 2; i <= Math.min(NUM_OF_NAV_PAGES, numOfPages); i++) {
+  //   navigablePages.push(
+  //     <IconButton
+  //       onClick={() => {
+  //         router.push(`/${i}`);
+  //       }}
+  //     >
+  //       {i}
+  //     </IconButton>
+  //   );
+  // }
+
+  // if(numOfPages > NUM_OF_NAV_PAGES){
+  //   navigablePages.push(
+  //     <IconButton
+  //       onClick={() => {
+  //         router.push(`/${NUM_OF_NAV_PAGES + 1}`);
+  //       }}
+  //     >
+  //       {"..."}
+  //     </IconButton>
+  //   );
+  // }
   return (
     <Layout title="Home | Next.js + TypeScript Example">
       <div className="flex flex-col items-center">
@@ -90,8 +90,8 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
             </div>
           );
         })}
-        <div>
-          {navigablePages}
+
+        {/* {navigablePages}
           { numOfPages > 1 && 
           <IconButton
             onClick={() => {
@@ -100,8 +100,9 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
           >
             <NavigateNextIcon />
           </IconButton>
-          } 
-        </div>
+          }  */}
+
+          <PageNav pageNumber={1} numOfPages={numOfPages}/>
       </div>
     </Layout>
   );
