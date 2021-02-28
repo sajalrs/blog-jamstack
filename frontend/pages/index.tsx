@@ -5,6 +5,7 @@ import IconButton from "@material-ui/core/IconButton";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import { GetStaticProps } from "next";
 import { useRouter } from "next/router";
+
 import {
   CURSORS_QUERY,
   POSTS_QUERY,
@@ -53,7 +54,8 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
       </IconButton>
     );
   }
-
+  console.log(NUM_OF_NAV_PAGES);
+  console.log(numOfPages);
   if(numOfPages > NUM_OF_NAV_PAGES){
     navigablePages.push(
       <IconButton
@@ -90,7 +92,7 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
         })}
         <div>
           {navigablePages}
-
+          { numOfPages > 1 && 
           <IconButton
             onClick={() => {
               router.push(`/${2}`);
@@ -98,6 +100,7 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
           >
             <NavigateNextIcon />
           </IconButton>
+          } 
         </div>
       </div>
     </Layout>
