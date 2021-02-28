@@ -2,9 +2,6 @@ import Layout from "../components/Layout";
 import { initializeApollo, addApolloState } from "../lib/apolloClient";
 import { gql } from "@apollo/client";
 import MediaCard from "../components/Card";
-import IconButton from "@material-ui/core/IconButton";
-import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
-import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import PageNav from "../components/PageNav"
@@ -70,73 +67,6 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
   const router = useRouter();
   const pageNumber = parseInt(router.query.page.toString());
 
-  // let navigablePages = [];
-  // let start =
-  //   NUM_OF_NAV_PAGES * (Math.ceil(pageNumber / NUM_OF_NAV_PAGES) - 1) + 1;
-  // let end = Math.min(
-  //   NUM_OF_NAV_PAGES * Math.ceil(pageNumber / NUM_OF_NAV_PAGES),
-  //   numOfPages
-  // );
-
-  // if (start !== 1) {
-  //   navigablePages.push(
-  //     <IconButton
-  //       onClick={() => {
-  //         router.push(`/${start - 1}`);
-  //       }}
-  //     >
-  //       {"..."}
-  //     </IconButton>
-  //   );
-  // }
-
-  // for (let i = start; i <= end; i++) {
-  //   if (i === 1) {
-  //     navigablePages.push(
-  //       <IconButton
-  //         onClick={() => {
-  //           router.push(`/`);
-  //         }}
-  //       >
-  //         1
-  //       </IconButton>
-  //     );
-  //   } else if (pageNumber === i) {
-  //     navigablePages.push(
-  //       <IconButton
-  //         disabled
-  //         onClick={() => {
-  //           router.push(`/${i}`);
-  //         }}
-  //       >
-  //         {i}
-  //       </IconButton>
-  //     );
-  //   } else {
-  //     navigablePages.push(
-  //       <IconButton
-  //         onClick={() => {
-  //           router.push(`/${i}`);
-  //         }}
-  //       >
-  //         {i}
-  //       </IconButton>
-  //     );
-  //   }
-  // }
-
-  // if (end < numOfPages - 1) {
-  //   navigablePages.push(
-  //     <IconButton
-  //       onClick={() => {
-  //         router.push(`/${end + 1}`);
-  //       }}
-  //     >
-  //       {"..."}
-  //     </IconButton>
-  //   );
-  // }
-
   if (errors) {
     return (
       <Layout title="Error | Next.js + TypeScript Example">
@@ -169,25 +99,6 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
             </div>
           );
         })}
-        {/* <div>
-          <IconButton
-            onClick={() => {
-              router.push(pageNumber === 2 ? "/" : `/${pageNumber - 1}`);
-            }}
-          >
-            <NavigateBeforeIcon />
-          </IconButton>
-          {navigablePages}
-          {pageNumber !== numOfPages ? (
-            <IconButton
-              onClick={() => {
-                router.push(`/${pageNumber + 1}`);
-              }}
-            >
-              <NavigateNextIcon />
-            </IconButton>
-          ) : null}
-        </div> */}
         <PageNav pageNumber={pageNumber} numOfPages={numOfPages}/>
       </div>
     </Layout>
