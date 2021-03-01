@@ -17,11 +17,29 @@ const POST_QUERY = gql`
   }
 `;
 
+// export const POSTS_SLUG_QUERY = gql`
+//   query postsQuery {
+//     posts {
+//       nodes {
+//         slug
+//       }
+//     }
+//   }
+// `;
 export const POSTS_SLUG_QUERY = gql`
-  query postsQuery {
-    posts {
-      nodes {
-        slug
+  query postsQuery($first: Int, $last: Int, $after: String, $before: String) {
+    posts(first: $first, last: $last, after: $after, before: $before) {
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+      edges {
+        cursor
+        node {
+          slug
+        }
       }
     }
   }
@@ -58,7 +76,9 @@ const Post = ({ post, errors }: Props) => {
         post ? post.title : "User Detail"
       } | Next.js + TypeScript Example`}
     >
-      <div className={`${postStyles["post"]} flex justify-center items-center max-w-full`}>
+      <div
+        className={`${postStyles["post"]} flex justify-center items-center max-w-full`}
+      >
         <div className="m-4 max-w-4xl">
           <Typography gutterBottom variant="h5" component="h2">
             {post?.title}
@@ -81,16 +101,29 @@ export const getStaticPaths: GetStaticPaths = async () => {
   // Get the paths we want to pre-render based on users
 
   const apolloClient = initializeApollo();
-
-  const { data } = await apolloClient.query({
-    query: POSTS_SLUG_QUERY,
-    context: { clientName: "wordPress" },
-  });
-
-  const paths = data.posts.nodes.map((node: { slug: string }) => ({
-    params: { slug: node.slug.toString() },
-  }));
-
+  let paths = [];
+  let hasNextPage;
+  let nextCursor = null;
+  do {
+    const { data }: any = await apolloClient.query({
+      query: POSTS_SLUG_QUERY,
+      variables: {
+        first: 10,
+        last: null,
+        after: nextCursor,
+        before: null,
+      },
+      context: { clientName: "wordPress" },
+    });
+    paths.push(
+      ...data.posts.edges.map((edge: any) => ({
+        params: { slug: edge.node.slug.toString() },
+      }))
+    );
+    hasNextPage = data.posts.pageInfo.hasNextPage;
+    nextCursor = data.posts.pageInfo.endCursor;
+   
+  } while (hasNextPage);
   // We'll pre-render only these paths at build time.
   // { fallback: false } means other routes should 404.
   return { paths, fallback: false };
