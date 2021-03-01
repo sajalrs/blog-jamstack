@@ -18,7 +18,7 @@ const PageNav = ({ pageNumber, numOfPages }: Props) => {
     NUM_OF_NAV_PAGES * (Math.ceil(pageNumber / NUM_OF_NAV_PAGES) - 1) + 1;
   let end = Math.min(
     NUM_OF_NAV_PAGES * Math.ceil(pageNumber / NUM_OF_NAV_PAGES),
-    numOfPages
+    numOfPages-1
   );
   if (pageNumber !== 1) {
     navigablePages.push(
@@ -92,7 +92,19 @@ const PageNav = ({ pageNumber, numOfPages }: Props) => {
     }
   }
 
-  if (pageNumber !== numOfPages) {
+  if (end !== numOfPages-1) {
+    navigablePages.push(
+      <IconButton
+        onClick={() => {
+          router.push(`/${end + 1}`);
+        }}
+      >
+        {"..."}
+      </IconButton>
+    );
+  }
+
+  if (pageNumber !== numOfPages-1) {
   
     navigablePages.push(<IconButton
       onClick={() => {

@@ -6,7 +6,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 
 type Props = {
@@ -46,26 +46,40 @@ const MediaCard = ({
   const router = useRouter();
   return (
     <Card className={classes.root}>
-      <CardActionArea onClick={() => {router.push(link)}}>
-        <CardMedia className={classes.media} image={imgURL} title={imgTitle} />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            {title}
-          </Typography>
-          <div
-            className={classes.description}
-            dangerouslySetInnerHTML={{ __html: description }}
+        <CardActionArea
+          onClick={() => {
+            router.push(link);
+          }}
+        >
+          <CardMedia
+            className={classes.media}
+            image={imgURL}
+            title={imgTitle}
           />
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        {/* <Button size="small" color="primary">
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="h2">
+              {title}
+            </Typography>
+            <div
+              className={classes.description}
+              dangerouslySetInnerHTML={{ __html: description }}
+            />
+          </CardContent>
+        </CardActionArea>
+        <CardActions>
+          {/* <Button size="small" color="primary">
           Share
         </Button> */}
-        <Button size="small" color="primary" onClick={() => {router.push(link)}}>
-          Learn More
-        </Button>
-      </CardActions>
+          <Button
+            size="small"
+            color="primary"
+            onClick={() => {
+              router.push(link);
+            }}
+          >
+            Learn More
+          </Button>
+        </CardActions>
     </Card>
   );
 };
