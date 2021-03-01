@@ -9,7 +9,7 @@ type Props = {
   numOfPages: number;
 };
 
-export const ITEMS_PER_PAGE = 3;
+export const ITEMS_PER_PAGE = 9;
 const PostsList = ({ posts, pageNumber, numOfPages }: Props) => {
   return (
     <div className="flex flex-col items-center">
