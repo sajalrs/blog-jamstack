@@ -61,7 +61,7 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
   }
   return (
     <Layout title="Home | Next.js + TypeScript Example">
-      <PostsList curDir=".." posts={posts!} pageNumber={pageNumber} numOfPages={numOfPages} />
+      <PostsList curDir="../.." posts={posts!} pageNumber={pageNumber} numOfPages={numOfPages} />
     </Layout>
   );
 };
@@ -77,7 +77,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   });
   let paths = [];
   const numOfPages = Math.ceil(data.posts.edges.length / ITEMS_PER_PAGE);
-  for (let i = 2; i <= numOfPages; i++) {
+  for (let i = 1; i <= numOfPages; i++) {
     paths.push({ params: { page: i.toString() } });
   }
 
@@ -106,7 +106,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       variables: {
         first: ITEMS_PER_PAGE,
         last: null,
-        after: cursors[page - 1].cursor,
+        after: page === 1 ? null : cursors[page - 1].cursor,
         before: null,
       },
       context: { clientName: "wordPress" },
