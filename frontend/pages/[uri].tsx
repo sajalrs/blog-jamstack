@@ -1,5 +1,5 @@
-import Layout from "../../components/Layout";
-import { addApolloState, initializeApollo } from "../../lib/apolloClient";
+import Layout from "../components/Layout";
+import { addApolloState, initializeApollo } from "../lib/apolloClient";
 import { gql } from "@apollo/client";
 import { GetStaticProps, GetStaticPaths } from "next";
 import Typography from "@material-ui/core/Typography";
