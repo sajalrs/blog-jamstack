@@ -4,6 +4,7 @@ import { gql } from "@apollo/client";
 import { GetStaticProps, GetStaticPaths } from "next";
 import Typography from "@material-ui/core/Typography";
 import pageStyles from "./page.module.scss";
+import { MENU_QUERY, MenuListItem } from "../components/Navbar";
 const PAGES_QUERY = gql`
   query PagesQuery($uri: String!) {
     pageBy(uri: $uri) {
@@ -41,12 +42,16 @@ type Page = {
 type Props = {
   page?: Page;
   errors?: string;
+  menuListItems: MenuListItem[];
 };
 
-const Page = ({ page, errors }: Props) => {
+const Page = ({ page, errors, menuListItems }: Props) => {
   if (errors) {
     return (
-      <Layout title="Error | Next.js + TypeScript Example">
+      <Layout
+        menuListItems={menuListItems}
+        title="Error | Next.js + TypeScript Example"
+      >
         <p>
           <span style={{ color: "red" }}>Error:</span> {errors}
         </p>
@@ -56,6 +61,7 @@ const Page = ({ page, errors }: Props) => {
 
   return (
     <Layout
+      menuListItems={menuListItems}
       title={`${
         page ? page.title : "User Detail"
       } | Next.js + TypeScript Example`}
@@ -128,9 +134,25 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       context: { clientName: "wordPress" },
     });
 
+    const menuListItems = await apolloClient
+      .query({
+        query: MENU_QUERY,
+        context: { clientName: "wordPress" },
+      })
+      .then((res) =>
+        res.data.headerMenu.map(
+          (item: { url: string; label: string; type: string }) => ({
+            title: item.label,
+            pageURL: item.url,
+          })
+        )
+      );
+
     // By returning { props: item }, the StaticPropsDetail component
     // will receive `item` as a prop at build time
-    return addApolloState(apolloClient, { props: { page: data.pageBy } });
+    return addApolloState(apolloClient, {
+      props: { page: data.pageBy, menuListItems },
+    });
   } catch (err) {
     return { props: { errors: err.message } };
   }

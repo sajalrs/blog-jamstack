@@ -1,13 +1,14 @@
-import React, { ReactNode } from 'react'
-import Head from 'next/head'
-import Navbar from "./Navbar"
-import Footer from "./Footer"
+import React, { ReactNode } from "react";
+import Head from "next/head";
+import Navbar, { MenuListItem } from "./Navbar";
+import Footer from "./Footer";
 type Props = {
-  children?: ReactNode
-  title?: string
-}
+  children?: ReactNode;
+  title?: string;
+  menuListItems: MenuListItem[];
+};
 
-const Layout = ({ children, title = 'This is the default title' }: Props) => (
+const Layout = ({ children, title = "This is the default title", menuListItems }: Props) => (
   <div>
     <Head>
       <title>{title}</title>
@@ -15,13 +16,13 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => (
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     </Head>
     <header>
-      <Navbar></Navbar>
+      <Navbar menuListItems={menuListItems}/>
     </header>
     {children}
     <footer>
-      <Footer/>
+      <Footer />
     </footer>
   </div>
-)
+);
 
-export default Layout
+export default Layout;

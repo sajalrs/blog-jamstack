@@ -4,7 +4,7 @@ import { gql } from "@apollo/client";
 import { GetStaticProps, GetStaticPaths } from "next";
 import Typography from "@material-ui/core/Typography";
 import postStyles from "./post.module.scss";
-
+import { MENU_QUERY, MenuListItem } from "../../components/Navbar";
 const POST_QUERY = gql`
   query PostQuery($slug: String!) {
     postBy(slug: $slug) {
@@ -57,12 +57,16 @@ type Post = {
 type Props = {
   post?: Post;
   errors?: string;
+  menuListItems: MenuListItem[];
 };
 
-const Post = ({ post, errors }: Props) => {
+const Post = ({ post, errors, menuListItems }: Props) => {
   if (errors) {
     return (
-      <Layout title="Error | Next.js + TypeScript Example">
+      <Layout
+        menuListItems={menuListItems}
+        title="Error | Next.js + TypeScript Example"
+      >
         <p>
           <span style={{ color: "red" }}>Error:</span> {errors}
         </p>
@@ -75,6 +79,7 @@ const Post = ({ post, errors }: Props) => {
       title={`${
         post ? post.title : "User Detail"
       } | Next.js + TypeScript Example`}
+      menuListItems={menuListItems}
     >
       <div
         className={`${postStyles["post"]} flex justify-center items-center max-w-full`}
@@ -122,7 +127,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
     );
     hasNextPage = data.posts.pageInfo.hasNextPage;
     nextCursor = data.posts.pageInfo.endCursor;
-   
   } while (hasNextPage);
   // We'll pre-render only these paths at build time.
   // { fallback: false } means other routes should 404.
@@ -144,9 +148,25 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       context: { clientName: "wordPress" },
     });
 
+    const menuListItems = await apolloClient
+      .query({
+        query: MENU_QUERY,
+        context: { clientName: "wordPress" },
+      })
+      .then((res) =>
+        res.data.headerMenu.map(
+          (item: { url: string; label: string; type: string }) => ({
+            title: item.label,
+            pageURL: item.url,
+          })
+        )
+      );
+
     // By returning { props: item }, the StaticPropsDetail component
     // will receive `item` as a prop at build time
-    return addApolloState(apolloClient, { props: { post: data.postBy } });
+    return addApolloState(apolloClient, {
+      props: { post: data.postBy, menuListItems },
+    });
   } catch (err) {
     return { props: { errors: err.message } };
   }
