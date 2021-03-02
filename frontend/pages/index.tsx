@@ -2,19 +2,23 @@ import Layout from "../components/Layout";
 import { initializeApollo, addApolloState } from "../lib/apolloClient";
 import { GetStaticProps } from "next";
 import { Post } from "../interfaces";
-import PostsList, {ITEMS_PER_PAGE } from "../components/PostsList";
-import { CURSORS_QUERY, POSTS_QUERY} from "./posts/pages/[page]";
-
+import PostsList, { ITEMS_PER_PAGE } from "../components/PostsList";
+import { CURSORS_QUERY, POSTS_QUERY } from "./posts/pages/[page]";
+import { MENU_QUERY, MenuListItem } from "../components/Navbar";
 type Props = {
   posts?: Post[];
   errors?: string;
   numOfPages: number;
+  menuListItems: MenuListItem[];
 };
 
-const IndexPage = ({ posts, errors, numOfPages }: Props) => {
+const IndexPage = ({ posts, errors, numOfPages, menuListItems }: Props) => {
   if (errors) {
     return (
-      <Layout title="Error | Next.js + TypeScript Example">
+      <Layout
+        menuListItems={menuListItems}
+        title="Error | Next.js + TypeScript Example"
+      >
         <p>
           <span style={{ color: "red" }}>Error:</span> {errors}
         </p>
@@ -23,8 +27,16 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
   }
 
   return (
-    <Layout title="Home | Next.js + TypeScript Example">
-      <PostsList curDir="/posts" posts={posts!} pageNumber={1} numOfPages={numOfPages} />
+    <Layout
+      menuListItems={menuListItems}
+      title="Home | Next.js + TypeScript Example"
+    >
+      <PostsList
+        curDir="/posts"
+        posts={posts!}
+        pageNumber={1}
+        numOfPages={numOfPages}
+      />
     </Layout>
   );
 };
@@ -58,10 +70,25 @@ export const getStaticProps: GetStaticProps = async () => {
       context: { clientName: "wordPress" },
     });
 
+    const menuListItems = await apolloClient
+      .query({
+        query: MENU_QUERY,
+        context: { clientName: "wordPress" },
+      })
+      .then((res) =>
+        res.data.headerMenu.map(
+          (item: { url: string; label: string; type: string }) => ({
+            title: item.label,
+            pageURL: item.url,
+          })
+        )
+      );
+
     return addApolloState(apolloClient, {
       props: {
         posts: data.posts.edges.map((edge: { node: Post }) => edge.node),
         numOfPages: cursors.length,
+        menuListItems,
       },
     });
   } catch (err) {

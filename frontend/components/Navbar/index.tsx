@@ -29,7 +29,7 @@ import Button from "@material-ui/core/Button";
 import { useRouter } from "next/router";
 import { gql, useQuery, NetworkStatus } from "@apollo/client";
 
-const MENU_QUERY = gql`
+export const MENU_QUERY = gql`
   query MenuQuery {
     headerMenu {
       url
@@ -78,24 +78,33 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Navbar = () => {
-  const { loading, data, networkStatus } = useQuery(MENU_QUERY, {
-    context: { clientName: "wordPress" },
-    notifyOnNetworkStatusChange: true,
-  });
+export type MenuListItem = {
+  title: string;
+  pageURL: string;
+};
 
-  const loadingArticle = networkStatus === NetworkStatus.fetchMore;
-  let MenuListItems: [{ title: string; pageURL: string }];
-  if (loading && !loadingArticle) {
-    MenuListItems = [{ title: "Loading", pageURL: "/" }];
-  } else {
-    MenuListItems = data.headerMenu.map(
-      (item: { url: string; label: string; type: string }) => ({
-        title: item.label,
-        pageURL: item.url,
-      })
-    );
-  }
+type Props = {
+  menuListItems: MenuListItem[];
+};
+
+const Navbar = ({menuListItems}: Props) => {
+  // const { loading, data, networkStatus } = useQuery(MENU_QUERY, {
+  //   context: { clientName: "wordPress" },
+  //   notifyOnNetworkStatusChange: true,
+  // });
+
+  // const loadingArticle = networkStatus === NetworkStatus.fetchMore;
+  // let MenuListItems: [{ title: string; pageURL: string }];
+  // if (loading && !loadingArticle) {
+  //   MenuListItems = [{ title: "Loading", pageURL: "/" }];
+  // } else {
+  //   MenuListItems = data.headerMenu.map(
+  //     (item: { url: string; label: string; type: string }) => ({
+  //       title: item.label,
+  //       pageURL: item.url,
+  //     })
+  //   );
+  // }
 
   const router = useRouter();
   const theme = useTheme();
@@ -180,7 +189,7 @@ const Navbar = () => {
                           id="menu-list-grow"
                           onKeyDown={handleListKeyDown}
                         >
-                          {MenuListItems.map((item, index) => {
+                          {menuListItems.map((item, index) => {
                             const { title, pageURL } = item;
                             return (
                               <MenuItem
@@ -201,7 +210,7 @@ const Navbar = () => {
             </div>
           ) : (
             <div className={classes["header-options"]}>
-              {MenuListItems.map((item, index) => {
+              {menuListItems.map((item, index) => {
                 const { title, pageURL } = item;
                 return (
                   <Button
