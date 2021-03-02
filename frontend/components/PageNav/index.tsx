@@ -24,7 +24,7 @@ const PageNav = ({ pageNumber, numOfPages }: Props) => {
     navigablePages.push(
       <IconButton
         onClick={() => {
-          router.push(pageNumber === 2 ? `/` : `/${pageNumber - 1}`);
+          router.push(pageNumber === 2 ? `/` : `posts/pages/${pageNumber - 1}`);
         }}
       >
         <NavigateBeforeIcon />
@@ -36,7 +36,7 @@ const PageNav = ({ pageNumber, numOfPages }: Props) => {
     navigablePages.push(
       <IconButton
         onClick={() => {
-          router.push(`/${start - 1}`);
+          router.push(`posts/pages/${start - 1}`);
         }}
       >
         {"..."}
@@ -73,7 +73,7 @@ const PageNav = ({ pageNumber, numOfPages }: Props) => {
         <IconButton
           disabled
           onClick={() => {
-            router.push(`/${i}`);
+            router.push(`posts/pages/${i}`);
           }}
         >
           {i}
@@ -83,7 +83,7 @@ const PageNav = ({ pageNumber, numOfPages }: Props) => {
       navigablePages.push(
         <IconButton
           onClick={() => {
-            router.push(`/${i}`);
+            router.push(`posts/pages/${i}`);
           }}
         >
           {i}
@@ -96,7 +96,7 @@ const PageNav = ({ pageNumber, numOfPages }: Props) => {
     navigablePages.push(
       <IconButton
         onClick={() => {
-          router.push(`/${end + 1}`);
+          router.push(`posts/pages/${end + 1}`);
         }}
       >
         {"..."}
@@ -108,7 +108,7 @@ const PageNav = ({ pageNumber, numOfPages }: Props) => {
   
     navigablePages.push(<IconButton
       onClick={() => {
-        router.push(`/${pageNumber + 1}`);
+        router.push(`posts/pages/${pageNumber + 1}`);
       }}
     >
       <NavigateNextIcon />

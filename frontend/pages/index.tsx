@@ -3,7 +3,7 @@ import { initializeApollo, addApolloState } from "../lib/apolloClient";
 import { GetStaticProps } from "next";
 import { Post } from "../interfaces";
 import PostsList, {ITEMS_PER_PAGE } from "../components/PostsList";
-import { CURSORS_QUERY, POSTS_QUERY} from "./[page]";
+import { CURSORS_QUERY, POSTS_QUERY} from "./posts/pages/[page]";
 
 type Props = {
   posts?: Post[];
@@ -24,7 +24,7 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
 
   return (
     <Layout title="Home | Next.js + TypeScript Example">
-      <PostsList posts={posts!} pageNumber={1} numOfPages={numOfPages} />
+      <PostsList curDir="/posts" posts={posts!} pageNumber={1} numOfPages={numOfPages} />
     </Layout>
   );
 };
