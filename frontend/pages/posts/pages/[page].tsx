@@ -1,10 +1,10 @@
-import Layout from "../components/Layout";
-import { initializeApollo, addApolloState } from "../lib/apolloClient";
+import Layout from "../../../components/Layout";
+import { initializeApollo, addApolloState } from "../../../lib/apolloClient";
 import { gql } from "@apollo/client";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
-import PostsList, {ITEMS_PER_PAGE} from "../components/PostsList";
-import { Post } from "../interfaces";
+import PostsList, {ITEMS_PER_PAGE} from "../../../components/PostsList";
+import { Post } from "../../../interfaces";
 
 
 export const POSTS_QUERY = gql`
@@ -61,7 +61,7 @@ const IndexPage = ({ posts, errors, numOfPages }: Props) => {
   }
   return (
     <Layout title="Home | Next.js + TypeScript Example">
-      <PostsList posts={posts!} pageNumber={pageNumber} numOfPages={numOfPages} />
+      <PostsList curDir=".." posts={posts!} pageNumber={pageNumber} numOfPages={numOfPages} />
     </Layout>
   );
 };

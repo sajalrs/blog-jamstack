@@ -7,10 +7,11 @@ type Props = {
   posts: Post[];
   pageNumber: number;
   numOfPages: number;
+  curDir?: string;
 };
 
 export const ITEMS_PER_PAGE = 9;
-const PostsList = ({ posts, pageNumber, numOfPages }: Props) => {
+const PostsList = ({ posts, pageNumber, numOfPages, curDir }: Props) => {
   return (
     <div className="flex flex-col items-center">
       <div className="grid grid-cols-3">
@@ -29,7 +30,7 @@ const PostsList = ({ posts, pageNumber, numOfPages }: Props) => {
                 }
                 cardWidth={345}
                 imgHeight={140}
-                link={`posts/${post.slug}`}
+                link={`${curDir}/${post.slug}`}
               />
             </div>
           );
