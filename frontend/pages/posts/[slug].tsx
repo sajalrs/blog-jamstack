@@ -3,8 +3,8 @@ import { addApolloState, initializeApollo } from "../../lib/apolloClient";
 import { gql } from "@apollo/client";
 import { GetStaticProps, GetStaticPaths } from "next";
 import Typography from "@material-ui/core/Typography";
-import postStyles from "./post.module.scss";
 import { MENU_QUERY, MenuListItem } from "../../components/Navbar";
+import postStyles from "./post.module.scss";
 const POST_QUERY = gql`
   query PostQuery($slug: String!) {
     postBy(slug: $slug) {
@@ -17,15 +17,6 @@ const POST_QUERY = gql`
   }
 `;
 
-// export const POSTS_SLUG_QUERY = gql`
-//   query postsQuery {
-//     posts {
-//       nodes {
-//         slug
-//       }
-//     }
-//   }
-// `;
 export const POSTS_SLUG_QUERY = gql`
   query postsQuery($first: Int, $last: Int, $after: String, $before: String) {
     posts(first: $first, last: $last, after: $after, before: $before) {
