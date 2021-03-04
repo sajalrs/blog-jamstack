@@ -27,7 +27,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Button from "@material-ui/core/Button";
 import { useRouter } from "next/router";
-import { gql, useQuery, NetworkStatus } from "@apollo/client";
+import { gql } from "@apollo/client";
 
 export const MENU_QUERY = gql`
   query MenuQuery {
@@ -88,24 +88,6 @@ type Props = {
 };
 
 const Navbar = ({menuListItems}: Props) => {
-  // const { loading, data, networkStatus } = useQuery(MENU_QUERY, {
-  //   context: { clientName: "wordPress" },
-  //   notifyOnNetworkStatusChange: true,
-  // });
-
-  // const loadingArticle = networkStatus === NetworkStatus.fetchMore;
-  // let MenuListItems: [{ title: string; pageURL: string }];
-  // if (loading && !loadingArticle) {
-  //   MenuListItems = [{ title: "Loading", pageURL: "/" }];
-  // } else {
-  //   MenuListItems = data.headerMenu.map(
-  //     (item: { url: string; label: string; type: string }) => ({
-  //       title: item.label,
-  //       pageURL: item.url,
-  //     })
-  //   );
-  // }
-
   const router = useRouter();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));

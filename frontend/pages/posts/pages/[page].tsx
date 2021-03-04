@@ -7,6 +7,7 @@ import PostsList, { ITEMS_PER_PAGE } from "../../../components/PostsList";
 import { Post } from "../../../interfaces";
 import { MENU_QUERY, MenuListItem } from "../../../components/Navbar";
 
+
 export const POSTS_QUERY = gql`
   query postsQuery($first: Int, $last: Int, $after: String, $before: String) {
     posts(first: $first, last: $last, after: $after, before: $before) {

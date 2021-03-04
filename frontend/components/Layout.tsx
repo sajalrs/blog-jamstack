@@ -20,7 +20,7 @@ const Layout = ({ children, title = "This is the default title", menuListItems }
     </header>
     {children}
     <footer>
-      <Footer />
+      <Footer menuListItems={menuListItems}/>
     </footer>
   </div>
 );

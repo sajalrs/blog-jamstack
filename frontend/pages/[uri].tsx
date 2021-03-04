@@ -5,6 +5,7 @@ import { GetStaticProps, GetStaticPaths } from "next";
 import Typography from "@material-ui/core/Typography";
 import pageStyles from "./page.module.scss";
 import { MENU_QUERY, MenuListItem } from "../components/Navbar";
+
 const PAGES_QUERY = gql`
   query PagesQuery($uri: String!) {
     pageBy(uri: $uri) {
