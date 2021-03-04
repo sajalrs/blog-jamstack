@@ -6,6 +6,8 @@ import CopyrightIcon from "@material-ui/icons/Copyright";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import { useRouter } from "next/router";
+import {MenuListItem} from "../../components/Navbar"
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -118,22 +120,27 @@ const FooterLinks = [
   },
 ];
 
-const MenuListItems = [
-  {
-    title: "Home",
-    pageURL: "/",
-  },
-  {
-    title: "About",
-    pageURL: "/",
-  },
-  {
-    title: "Blog",
-    pageURL: "/",
-  },
-];
+// const MenuListItems = [
+//   {
+//     title: "Home",
+//     pageURL: "/",
+//   },
+//   {
+//     title: "About",
+//     pageURL: "/",
+//   },
+//   {
+//     title: "Blog",
+//     pageURL: "/",
+//   },
+// ];
 
-const Footer = () => {
+type Props = {
+  menuListItems: MenuListItem[];
+};
+
+
+const Footer = ({menuListItems}: Props) => {
   const classes = useStyles();
   const router = useRouter();
   return (
@@ -185,7 +192,7 @@ const Footer = () => {
 
         <Grid item xs={12} sm={3}>
           <div className={classes.footerRows}>
-            {MenuListItems.map((item, index) => {
+            {menuListItems.map((item, index) => {
               const { title, pageURL } = item;
               return (
                 <Typography
