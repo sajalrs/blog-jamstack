@@ -73,13 +73,14 @@ const Post = ({ post, errors, menuListItems }: Props) => {
       menuListItems={menuListItems}
     >
       <div
-        className={`${postStyles["post"]} flex justify-center items-center max-w-full`}
+        className={`${postStyles["post"]}`}
       >
-        <div className="m-4 max-w-4xl">
+        <div className="">
           <Typography gutterBottom variant="h5" component="h2">
             {post?.title}
           </Typography>
           <div
+            className="max-w-screen"
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: post?.content!!,
