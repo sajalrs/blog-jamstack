@@ -25,19 +25,19 @@ const useStyles = makeStyles((theme: Theme) =>
     columns: {
       display: "flex",
       flexDirection: "column",
-      alignItems: "center",
+      alignItems: "center"
     },
     miniFooterItems: {
       color: "white",
       padding: theme.spacing(1),
     },
     topFooter: {
-      display: "flex",
+      // display: "flex",
       // alignItems: "center",
       color: theme.palette.primary.dark,
-      justifyContent: "center",
+      // justifyContent: "center",
       backgroundColor: theme.palette.primary.light,
-      padding: theme.spacing(4),
+      // padding: theme.spacing(4),
     },
     bottomFooter: {
       display: "flex",
@@ -145,12 +145,12 @@ const Footer = ({menuListItems}: Props) => {
   const router = useRouter();
   return (
     <div className={classes.root}>
-      <Grid container spacing={3} className={classes.topFooter}>
+      <div className={`${classes.topFooter} grid h-full flex grid-cols-2 gap-3 md:grid-cols-3`}>
         {FooterLinks.map((item, index) => {
           const { title, array } = item;
           return (
-            <Grid key={index} item xs={6} sm={4} className={classes.columns}>
-              <Typography variant="h4" className={classes.columnHeader}>
+            <div className={`${classes.columns}`}>
+              <Typography variant="h4" className={`${classes.columnHeader}`}>
                 {title}
               </Typography>
               {array.map((item, index) => {
@@ -168,10 +168,10 @@ const Footer = ({menuListItems}: Props) => {
                   </Typography>
                 );
               })}
-            </Grid>
+            </div>
           );
         })}
-      </Grid>
+      </div>
       <Grid container spacing={3} className={classes.bottomFooter}>
         <Grid item xs={12} sm={3}>
           <div className={classes.footerRows}>

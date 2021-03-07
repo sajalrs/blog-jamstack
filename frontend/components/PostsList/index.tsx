@@ -14,7 +14,7 @@ export const ITEMS_PER_PAGE = 9;
 const PostsList = ({ posts, pageNumber, numOfPages, curDir }: Props) => {
   return (
     <div className="flex flex-col items-center">
-      <div className="grid grid-cols-3">
+      <div className="grid grid-cols-1 md:grid-cols-3">
         {posts!.map((post: Post, index: number) => {
           return (
             <div className="m-4">
