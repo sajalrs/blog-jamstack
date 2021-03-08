@@ -61,7 +61,7 @@ const MediaCard = ({
               {title}
             </Typography>
             <div
-              className={classes.description}
+              className={`${classes.description} prose`}
               dangerouslySetInnerHTML={{ __html: description }}
             />
           </CardContent>
