@@ -1,7 +1,7 @@
 import Layout from "../components/Layout";
 import { initializeApollo, addApolloState } from "../lib/apolloClient";
 import { GetStaticProps } from "next";
-import { Post } from "../interfaces";
+import { Post } from "./posts/[slug]";
 import PostsList, { ITEMS_PER_PAGE } from "../components/PostsList";
 import { CURSORS_QUERY, POSTS_QUERY } from "./posts/pages/[page]";
 import { MENU_QUERY, MenuListItem } from "../components/Navbar";
