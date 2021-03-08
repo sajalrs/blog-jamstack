@@ -35,7 +35,7 @@ export const POSTS_SLUG_QUERY = gql`
   }
 `;
 
-type Post = {
+export type Post = {
   __typename: string;
   title: string;
   content: string;
