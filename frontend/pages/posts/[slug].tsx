@@ -4,7 +4,6 @@ import { gql } from "@apollo/client";
 import { GetStaticProps, GetStaticPaths } from "next";
 import Typography from "@material-ui/core/Typography";
 import { MENU_QUERY, MenuListItem } from "../../components/Navbar";
-import postStyles from "./post.module.scss";
 const POST_QUERY = gql`
   query PostQuery($slug: String!) {
     postBy(slug: $slug) {
@@ -73,14 +72,13 @@ const Post = ({ post, errors, menuListItems }: Props) => {
       menuListItems={menuListItems}
     >
       <div
-        className={`${postStyles["post"]}`}
+        className={"flex justify-center items-center max-w-full m-1 md:m-4 overflow-x-hidden"}
       >
-        <div className="">
+        <div className="prose prose-xl max-w-sm md:max-w-4xl">
           <Typography gutterBottom variant="h5" component="h2">
             {post?.title}
           </Typography>
           <div
-            className="max-w-screen"
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: post?.content!!,

@@ -3,7 +3,6 @@ import { addApolloState, initializeApollo } from "../lib/apolloClient";
 import { gql } from "@apollo/client";
 import { GetStaticProps, GetStaticPaths } from "next";
 import Typography from "@material-ui/core/Typography";
-import pageStyles from "./page.module.scss";
 import { MENU_QUERY, MenuListItem } from "../components/Navbar";
 
 const PAGES_QUERY = gql`
@@ -68,7 +67,7 @@ const Page = ({ page, errors, menuListItems }: Props) => {
       } | Next.js + TypeScript Example`}
     >
       <div
-        className={`${pageStyles["page"]} flex justify-center items-center max-w-full`}
+        className={`flex justify-center items-center max-w-full`}
       >
         <div className="m-4 max-w-4xl">
           <Typography gutterBottom variant="h5" component="h2">
