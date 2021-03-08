@@ -40,10 +40,10 @@ const useStyles = makeStyles((theme: Theme) =>
       // padding: theme.spacing(4),
     },
     bottomFooter: {
-      display: "flex",
+      // display: "flex",
       color: "white",
       // alignItems: "center",
-      justifyContent: "center",
+      // justifyContent: "center",
 
       backgroundColor: theme.palette.primary.dark,
     },
@@ -145,7 +145,8 @@ const Footer = ({menuListItems}: Props) => {
   const router = useRouter();
   return (
     <div className={classes.root}>
-      <div className={`${classes.topFooter} grid h-full flex grid-cols-2 gap-3 md:grid-cols-3`}>
+      <div className={`${classes.topFooter} grid items-center justify-center grid-cols-1 md:grid-cols-3 p-4`}>
+        
         {FooterLinks.map((item, index) => {
           const { title, array } = item;
           return (
@@ -172,8 +173,8 @@ const Footer = ({menuListItems}: Props) => {
           );
         })}
       </div>
-      <Grid container spacing={3} className={classes.bottomFooter}>
-        <Grid item xs={12} sm={3}>
+      <div className={`${classes.bottomFooter} grid items-center justify-center grid-rows-3 grid-cols-1 md:grid-cols-3 md:grid-rows-1`}>
+       
           <div className={classes.footerRows}>
           <Tooltip title="Sajal Satyal" placement="top">
               <Typography
@@ -188,9 +189,6 @@ const Footer = ({menuListItems}: Props) => {
               Copyright
             </Typography>
           </div>
-        </Grid>
-
-        <Grid item xs={12} sm={3}>
           <div className={classes.footerRows}>
             {menuListItems.map((item, index) => {
               const { title, pageURL } = item;
@@ -208,8 +206,6 @@ const Footer = ({menuListItems}: Props) => {
               );
             })}
           </div>
-        </Grid>
-        <Grid item xs={12} sm={3}>
           <div className={classes.footerRows}>
             <IconButton
               className={`${classes.miniFooterItems} ${classes.bottomFooterIconLinks}`}
@@ -227,9 +223,9 @@ const Footer = ({menuListItems}: Props) => {
               <CopyrightIcon />
             </IconButton>
           </div>
-        </Grid>
-      </Grid>
-    </div>
+        </div>
+      </div>
+  
   );
 };
 
