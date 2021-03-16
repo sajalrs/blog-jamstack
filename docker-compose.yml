@@ -30,19 +30,5 @@ services:
             - ./docker/postlightheadlesswpstarter.wordpress.xml:/var/www/postlightheadlesswpstarter.wordpress.xml
             - ./docker/images:/var/www/images
             - ./docker/plugins:/var/www/plugins
-    frontend:
-        command: bash -c 'yarn && yarn dev'
-        container_name: frontend
-        depends_on:
-            - db-headless
-        expose:
-            - '3000'
-        image: node
-        ports:
-            - '3000:3000'
-        user: node
-        volumes:
-            - ./frontend:/home/node/app
-        working_dir: /home/node/app
 volumes: 
     db_data:
