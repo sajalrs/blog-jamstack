@@ -7,6 +7,10 @@
   "private": true,
   "scripts": {
     "postinstall": "docker-compose run --rm wp-headless install_wordpress",
-    "start": "docker-compose up"
+    "start": "docker-compose up",
+    "dev": "concurrently \"docker-compose up\" \"cd frontend && yarn dev\""
+  },
+  "dependencies": {
+    "concurrently": "^6.0.0"
   }
 }
