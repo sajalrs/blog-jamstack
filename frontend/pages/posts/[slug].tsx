@@ -36,7 +36,6 @@ export const POSTS_SLUG_QUERY = gql`
 `;
 
 export type Post = {
-  __typename: string;
   title: string;
   content: string;
   author: {
@@ -137,20 +136,18 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       variables: { slug },
       context: { clientName: "wordPress" },
     });
-
     const menuListItems = await apolloClient
       .query({
         query: MENU_QUERY,
         context: { clientName: "wordPress" },
       })
-      .then((res) =>
-        res.data.headerMenu.map(
-          (item: { url: string; label: string; type: string }) => ({
-            title: item.label,
-            pageURL: item.url,
-          })
-        )
-      );
+      .then((res) =>{
+        console.log(res.data.menuItems.edges)
+        return res.data.menuItems.edges.map((edge) => ({title: edge.label, pageURL: edge.url}))      
+      
+      } 
+        );
+        
 
     // By returning { props: item }, the StaticPropsDetail component
     // will receive `item` as a prop at build time

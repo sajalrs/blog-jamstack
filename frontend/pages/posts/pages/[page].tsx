@@ -4,7 +4,7 @@ import { gql } from "@apollo/client";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import PostsList, { ITEMS_PER_PAGE } from "../../../components/PostsList";
-import { Post } from "../../../interfaces";
+import { Post } from "../[slug]";
 import { MENU_QUERY, MenuListItem } from "../../../components/Navbar";
 
 export const POSTS_QUERY = gql`
@@ -14,13 +14,13 @@ export const POSTS_QUERY = gql`
         node {
           date
           featuredImage {
-            title
-            sourceUrl
+            node {
+              title
+              sourceUrl
+            }
           }
           title
-          author {
-            id
-          }
+          authorId
           id
           slug
           excerpt
@@ -53,8 +53,10 @@ const IndexPage = ({ posts, errors, numOfPages, menuListItems }: Props) => {
 
   if (errors) {
     return (
-      <Layout title="Error | Next.js + TypeScript Example"
-      menuListItems={menuListItems}>
+      <Layout
+        title="Error | Next.js + TypeScript Example"
+        menuListItems={menuListItems}
+      >
         <p>
           <span style={{ color: "red" }}>Error:</span> {errors}
         </p>
@@ -62,8 +64,10 @@ const IndexPage = ({ posts, errors, numOfPages, menuListItems }: Props) => {
     );
   }
   return (
-    <Layout title="Home | Next.js + TypeScript Example"
-    menuListItems={menuListItems}>
+    <Layout
+      title="Home | Next.js + TypeScript Example"
+      menuListItems={menuListItems}
+    >
       <PostsList
         curDir=".."
         posts={posts!}
@@ -119,22 +123,19 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       },
       context: { clientName: "wordPress" },
     });
-
-
-
     const menuListItems = await apolloClient
       .query({
         query: MENU_QUERY,
         context: { clientName: "wordPress" },
       })
-      .then((res) =>
-        res.data.headerMenu.map(
-          (item: { url: string; label: string; type: string }) => ({
-            title: item.label,
-            pageURL: item.url,
-          })
-        )
-      );
+      .then((res) =>{
+        // console.log(res.data.menuItems.edges)
+        return res.data.menuItems.edges.map((edge) => ({title: edge.node.label, pageURL: edge.node.url}))      
+      
+      } 
+        );
+        
+ 
 
     return addApolloState(apolloClient, {
       props: {
