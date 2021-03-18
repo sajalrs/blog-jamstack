@@ -75,21 +75,12 @@ export const getStaticProps: GetStaticProps = async () => {
         query: MENU_QUERY,
         context: { clientName: "wordPress" },
       })
-      .then((res) =>{
-        // console.log(res.data.menuItems.edges)
-        return res.data.menuItems.edges.map((edge) => ({title: edge.node.label, pageURL: edge.node.url}))      
-      
-      } 
-        );
-        
-
-      // res.data.menuItems.edges.map(
-      //   (node) => ({
-      //     title: node.label,
-      //     pageURL: node.url,
-      //   })
-      // )
-
+      .then((res) => (
+        res.data.menuItems.nodes.map((node: {label: string, url: string}) => ({
+          title: node.label,
+          pageURL: node.url,
+        }))
+      ));
 
     return addApolloState(apolloClient, {
       props: {

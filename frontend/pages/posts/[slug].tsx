@@ -10,7 +10,9 @@ const POST_QUERY = gql`
       title
       content
       author {
-        nickname
+        node {
+          nickname
+        }
       }
     }
   }
@@ -71,7 +73,9 @@ const Post = ({ post, errors, menuListItems }: Props) => {
       menuListItems={menuListItems}
     >
       <div
-        className={"flex justify-center items-center max-w-full m-1 md:m-4 overflow-x-hidden"}
+        className={
+          "flex justify-center items-center max-w-full m-1 md:m-4 overflow-x-hidden"
+        }
       >
         <div className="prose prose-xl max-w-sm md:max-w-4xl">
           <Typography gutterBottom variant="h5" component="h2">
@@ -136,18 +140,20 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       variables: { slug },
       context: { clientName: "wordPress" },
     });
+
     const menuListItems = await apolloClient
       .query({
         query: MENU_QUERY,
         context: { clientName: "wordPress" },
       })
-      .then((res) =>{
-        console.log(res.data.menuItems.edges)
-        return res.data.menuItems.edges.map((edge) => ({title: edge.label, pageURL: edge.url}))      
-      
-      } 
-        );
-        
+      .then((res) =>
+        res.data.menuItems.nodes.map(
+          (node: { label: string; url: string }) => ({
+            title: node.label,
+            pageURL: node.url,
+          })
+        )
+      );
 
     // By returning { props: item }, the StaticPropsDetail component
     // will receive `item` as a prop at build time
