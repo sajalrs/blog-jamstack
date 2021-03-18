@@ -25,7 +25,7 @@ const PostsList = ({ posts, pageNumber, numOfPages, curDir }: Props) => {
                 imgTitle={post.title}
                 imgURL={
                   post.featuredImage
-                    ? post.featuredImage.sourceUrl
+                    ? post.featuredImage.node.sourceUrl
                     : "image_not_found.png"
                 }
                 cardWidth={345}

@@ -31,10 +31,13 @@ import { gql } from "@apollo/client";
 
 export const MENU_QUERY = gql`
   query MenuQuery {
-    headerMenu {
-      url
-      label
-      type
+    menuItems {
+      edges {
+        node {
+          url
+          label
+        }
+      }
     }
   }
 `;
