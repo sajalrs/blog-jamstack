@@ -190,7 +190,7 @@ const Footer = ({menuListItems}: Props) => {
             </Typography>
           </div>
           <div className={classes.footerRows}>
-            {menuListItems.map((item, index) => {
+            {menuListItems && menuListItems.map((item, index) => {
               const { title, pageURL } = item;
               return (
                 <Typography

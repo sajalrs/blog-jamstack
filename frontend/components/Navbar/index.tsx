@@ -171,7 +171,7 @@ const Navbar = ({menuListItems}: Props) => {
                           id="menu-list-grow"
                           onKeyDown={handleListKeyDown}
                         >
-                          {menuListItems.map((item, index) => {
+                          {menuListItems && menuListItems.map((item, index) => {
                             const { title, pageURL } = item;
                             return (
                               <MenuItem
@@ -192,7 +192,7 @@ const Navbar = ({menuListItems}: Props) => {
             </div>
           ) : (
             <div className={classes["header-options"]}>
-              {menuListItems.map((item, index) => {
+              {menuListItems && menuListItems.map((item, index) => {
                 const { title, pageURL } = item;
                 return (
                   <Button
