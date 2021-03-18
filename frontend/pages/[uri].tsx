@@ -66,9 +66,7 @@ const Page = ({ page, errors, menuListItems }: Props) => {
         page ? page.title : "User Detail"
       } | Next.js + TypeScript Example`}
     >
-      <div
-        className={`flex justify-center items-center max-w-full`}
-      >
+      <div className={`flex justify-center items-center max-w-full`}>
         <div className="m-4 max-w-4xl">
           <Typography gutterBottom variant="h5" component="h2">
             {page?.title}
@@ -138,14 +136,15 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         query: MENU_QUERY,
         context: { clientName: "wordPress" },
       })
-      .then((res) =>{
-        // console.log(res.data.menuItems.edges)
-        return res.data.menuItems.edges.map((edge) => ({title: edge.node.label, pageURL: edge.node.url}))      
-      
-      } 
-        );
-        
-    
+      .then((res) =>
+        res.data.menuItems.nodes.map(
+          (node: { label: string; url: string }) => ({
+            title: node.label,
+            pageURL: node.url,
+          })
+        )
+      );
+
     // By returning { props: item }, the StaticPropsDetail component
     // will receive `item` as a prop at build time
     return addApolloState(apolloClient, {

@@ -30,13 +30,11 @@ import { useRouter } from "next/router";
 import { gql } from "@apollo/client";
 
 export const MENU_QUERY = gql`
-  query MenuQuery {
+  query MenuQuery{
     menuItems {
-      edges {
-        node {
-          url
-          label
-        }
+      nodes {
+        url
+        label
       }
     }
   }
