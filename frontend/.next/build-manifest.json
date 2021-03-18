@@ -19,6 +19,11 @@
       "static/chunks/webpack.js",
       "static/chunks/pages/index.js"
     ],
+    "/[uri]": [
+      "static/chunks/main.js",
+      "static/chunks/webpack.js",
+      "static/chunks/pages/[uri].js"
+    ],
     "/_app": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
@@ -33,6 +38,11 @@
       "static/chunks/main.js",
       "static/chunks/webpack.js",
       "static/chunks/pages/posts/[slug].js"
+    ],
+    "/posts/pages/[page]": [
+      "static/chunks/main.js",
+      "static/chunks/webpack.js",
+      "static/chunks/pages/posts/pages/[page].js"
     ]
   },
   "ampFirstPages": []
