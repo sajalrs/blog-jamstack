@@ -103,17 +103,19 @@ export const getStaticPaths: GetStaticPaths = async () => {
       },
       context: { clientName: "wordPress" },
     });
-    console.log(data.pages.edges[0].node.uri.toString());
     paths.push(
-      ...data.pages.edges.map((edge: any) => ({
-        params: { uri: edge.node.uri.toString() },
-      }))
+      ...data.pages.edges.map((edge: any) => {
+        const slashedUri = edge.node.uri.toString();  
+        return {
+        params: { uri: slashedUri.slice(1, slashedUri.length -1)},
+      }})
     );
     hasNextPage = data.pages.pageInfo.hasNextPage;
     nextCursor = data.pages.pageInfo.endCursor;
   } while (hasNextPage);
   // We'll pre-render only these paths at build time.
   // { fallback: false } means other routes should 404.
+  // paths.push({params: {uri: 'about'}});
   return { paths, fallback: false };
 };
 
@@ -131,6 +133,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       variables: { uri },
       context: { clientName: "wordPress" },
     });
+    
     const menuListItems = await apolloClient
       .query({
         query: MENU_QUERY,
