@@ -35,6 +35,7 @@ const MediaCard = ({
       },
       media: {
         height: imgHeight,
+        width: "100%",
       },
       description: {
         ...theme.typography.body2,
@@ -46,40 +47,36 @@ const MediaCard = ({
   const router = useRouter();
   return (
     <Card className={classes.root}>
-        <CardActionArea
+      <CardActionArea
+        onClick={() => {
+          router.push(link);
+        }}
+      >
+        <CardMedia className={classes.media} image={imgURL} title={imgTitle} />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="h2">
+            {title}
+          </Typography>
+          <div
+            className={`${classes.description} prose`}
+            dangerouslySetInnerHTML={{ __html: description }}
+          />
+        </CardContent>
+      </CardActionArea>
+      <CardActions>
+        {/* <Button size="small" color="primary">
+          Share
+        </Button> */}
+        <Button
+          size="small"
+          color="primary"
           onClick={() => {
             router.push(link);
           }}
         >
-          <CardMedia
-            className={classes.media}
-            image={imgURL}
-            title={imgTitle}
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
-              {title}
-            </Typography>
-            <div
-              className={`${classes.description} prose`}
-              dangerouslySetInnerHTML={{ __html: description }}
-            />
-          </CardContent>
-        </CardActionArea>
-        <CardActions>
-          {/* <Button size="small" color="primary">
-          Share
-        </Button> */}
-          <Button
-            size="small"
-            color="primary"
-            onClick={() => {
-              router.push(link);
-            }}
-          >
-            Learn More
-          </Button>
-        </CardActions>
+          Learn More
+        </Button>
+      </CardActions>
     </Card>
   );
 };

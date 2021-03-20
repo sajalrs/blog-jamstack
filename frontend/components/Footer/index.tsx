@@ -75,7 +75,7 @@ const FooterLinks = [
     array: [
       {
         title: "About Me",
-        pageURL: "/",
+        pageURL: "/about",
       },
       {
         title: "Contact Me",
@@ -88,20 +88,20 @@ const FooterLinks = [
     array: [
       {
         title: "GitHub",
-        pageURL: "/",
+        pageURL: "https://github.com/sajalrs",
       },
       {
         title: "LinkedIn",
-        pageURL: "/",
+        pageURL: "https://www.linkedin.com/in/sajal-satyal-8470b0182/",
       },
       {
         title: "Facebook",
-        pageURL: "/",
+        pageURL: "https://www.facebook.com/sajal.raj.satyal/",
       },
 
       {
         title: "Twitter",
-        pageURL: "/",
+        pageURL: "https://twitter.com/SajalSatyal",
       },
     ],
   },
@@ -110,11 +110,11 @@ const FooterLinks = [
     array: [
       {
         title: "Privacy",
-        pageURL: "/",
+        pageURL: "/privacy",
       },
       {
         title: "Terms of Service",
-        pageURL: "/",
+        pageURL: "/terms-of-service",
       },
     ],
   },
