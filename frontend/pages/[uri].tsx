@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import { MENU_QUERY, MenuListItem } from "../components/Navbar";
 
 const PAGES_QUERY = gql`
-  query PagesQuery($uri: String!) {
+  query pagesQuery($uri: String!) {
     pageBy(uri: $uri) {
       title
       content
@@ -15,7 +15,7 @@ const PAGES_QUERY = gql`
 `;
 
 export const PAGES_SLUG_QUERY = gql`
-  query pagesQuery($first: Int, $last: Int, $after: String, $before: String) {
+  query pagesSlugQuery($first: Int, $last: Int, $after: String, $before: String) {
     pages(first: $first, last: $last, after: $after, before: $before) {
       pageInfo {
         hasNextPage
