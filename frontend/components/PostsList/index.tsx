@@ -1,5 +1,5 @@
 import React from "react";
-import { Post } from "../../interfaces";
+import { Post } from "../../pages/posts/[slug]";
 import PageNav from "../../components/PageNav";
 import MediaCard from "../Card";
 
