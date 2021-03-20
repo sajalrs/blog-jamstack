@@ -9,7 +9,7 @@ type Props = {
 };
 
 const Layout = ({ children, title = "This is the default title", menuListItems }: Props) => (
-  <div>
+  <div className="min-h-screen flex flex-col justify-between">
     <Head>
       <title>{title}</title>
       <meta charSet="utf-8" />
