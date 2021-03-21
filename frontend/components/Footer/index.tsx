@@ -1,13 +1,15 @@
 import React from "react";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import CopyrightIcon from "@material-ui/icons/Copyright";
+import FacebookIcon from "@material-ui/icons/Facebook";
+import TwitterIcon from "@material-ui/icons/Twitter";
+import GitHubIcon from "@material-ui/icons/GitHub";
+import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import { useRouter } from "next/router";
-import {MenuListItem} from "../../components/Navbar"
-
+import { MenuListItem } from "../../components/Navbar";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -25,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
     columns: {
       display: "flex",
       flexDirection: "column",
-      alignItems: "center"
+      alignItems: "center",
     },
     miniFooterItems: {
       color: "white",
@@ -139,15 +141,15 @@ type Props = {
   menuListItems: MenuListItem[];
 };
 
-
-const Footer = ({menuListItems}: Props) => {
+const Footer = ({ menuListItems }: Props) => {
   const classes = useStyles();
   const router = useRouter();
   return (
     <div className={classes.root}>
-      <div className={`${classes.topFooter} grid items-center justify-center grid-cols-1 md:grid-cols-3 p-4`}>
-        
-        {FooterLinks.map((item, index) => {
+      <div
+        className={`${classes.topFooter} grid items-center justify-center grid-cols-1 md:grid-cols-3 p-4`}
+      >
+        {FooterLinks.map((item) => {
           const { title, array } = item;
           return (
             <div className={`${classes.columns}`}>
@@ -173,24 +175,26 @@ const Footer = ({menuListItems}: Props) => {
           );
         })}
       </div>
-      <div className={`${classes.bottomFooter} grid items-center justify-center grid-rows-3 grid-cols-1 md:grid-cols-3 md:grid-rows-1`}>
-       
-          <div className={classes.footerRows}>
+      <div
+        className={`${classes.bottomFooter} grid items-center justify-center grid-rows-3 grid-cols-1 md:grid-cols-3 md:grid-rows-1`}
+      >
+        <div className={classes.footerRows}>
           <Tooltip title="Sajal Satyal" placement="top">
-              <Typography
-                variant="h6"
-                className={`${classes.miniFooterItems} ${classes.nepaliText}`}
-              >
-                सजल सत्याल
-              </Typography>
-            </Tooltip>
-            <CopyrightIcon />
-            <Typography variant="subtitle1" className={classes.miniFooterItems}>
-              Copyright
+            <Typography
+              variant="h6"
+              className={`${classes.miniFooterItems} ${classes.nepaliText}`}
+            >
+              सजल सत्याल
             </Typography>
-          </div>
-          <div className={classes.footerRows}>
-            {menuListItems && menuListItems.map((item, index) => {
+          </Tooltip>
+          <CopyrightIcon />
+          <Typography variant="subtitle1" className={classes.miniFooterItems}>
+            Copyright
+          </Typography>
+        </div>
+        <div className={classes.footerRows}>
+          {menuListItems &&
+            menuListItems.map((item, index) => {
               const { title, pageURL } = item;
               return (
                 <Typography
@@ -205,27 +209,45 @@ const Footer = ({menuListItems}: Props) => {
                 </Typography>
               );
             })}
-          </div>
-          <div className={classes.footerRows}>
-            <IconButton
-              className={`${classes.miniFooterItems} ${classes.bottomFooterIconLinks}`}
-            >
-              <CopyrightIcon />
-            </IconButton>
-            <IconButton
-              className={`${classes.miniFooterItems} ${classes.bottomFooterIconLinks}`}
-            >
-              <CopyrightIcon />
-            </IconButton>
-            <IconButton
-              className={`${classes.miniFooterItems} ${classes.bottomFooterIconLinks}`}
-            >
-              <CopyrightIcon />
-            </IconButton>
-          </div>
+        </div>
+        <div className={classes.footerRows}>
+          <IconButton
+            className={`${classes.miniFooterItems} ${classes.bottomFooterIconLinks}`}
+            onClick={() => {
+              router.push("https://www.facebook.com/sajal.raj.satyal/");
+            }}
+          >
+            <FacebookIcon />
+          </IconButton>
+          <IconButton
+            className={`${classes.miniFooterItems} ${classes.bottomFooterIconLinks}`}
+            onClick={() => {
+              router.push("https://twitter.com/SajalSatyal");
+            }}
+          >
+            <TwitterIcon />
+          </IconButton>
+          <IconButton
+            className={`${classes.miniFooterItems} ${classes.bottomFooterIconLinks}`}
+            onClick={() => {
+              router.push("https://github.com/sajalrs");
+            }}
+          >
+            <GitHubIcon />
+          </IconButton>
+          <IconButton
+            className={`${classes.miniFooterItems} ${classes.bottomFooterIconLinks}`}
+            onClick={() => {
+              router.push(
+                "https://www.linkedin.com/in/sajal-satyal-8470b0182/"
+              );
+            }}
+          >
+            <LinkedInIcon />
+          </IconButton>
         </div>
       </div>
-  
+    </div>
   );
 };
 

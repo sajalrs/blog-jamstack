@@ -4,7 +4,6 @@ import {
   InMemoryCache,
   NormalizedCacheObject,
   createHttpLink,
-  HttpLink
 } from "@apollo/client";
 import { concatPagination } from "@apollo/client/utilities";
 import merge from "deepmerge";
@@ -14,7 +13,7 @@ import { ApolloLink } from "apollo-link";
 export const APOLLO_STATE_PROP_NAME = "__APOLLO_STATE__";
 
 let apolloClient: ApolloClient<NormalizedCacheObject>;
-let wordpressEndpoint = 'http://localhost:8080/graphql';
+let wordpressEndpoint = 'http://54.158.195.234/graphql';
 
 // // If we're running on Docker, use the WordPress container hostname instead of localhost.
 // if (process.env.HOME === '/home/node') {

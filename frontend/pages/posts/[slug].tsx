@@ -43,6 +43,13 @@ export type Post = {
   author: {
     nickname: string;
   };
+  excerpt: string;
+  slug: string;
+  featuredImage: {
+    node: {
+      sourceUrl: string;
+    }
+  };
 };
 
 type Props = {
