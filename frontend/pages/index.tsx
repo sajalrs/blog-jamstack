@@ -3,7 +3,7 @@ import { initializeApollo, addApolloState } from "../lib/apolloClient";
 import { GetStaticProps } from "next";
 import { Post } from "./posts/[slug]";
 import PostsList, { ITEMS_PER_PAGE } from "../components/PostsList";
-import { CURSORS_QUERY, POSTS_QUERY } from "./posts/pages/[page]";
+import { POSTS_CURSORS_QUERY, POSTS_QUERY } from "./posts/pages/[page]";
 import { MENU_QUERY, MenuListItem } from "../components/Navbar";
 type Props = {
   posts?: Post[];
@@ -49,7 +49,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
     const cursors = await apolloClient
       .query({
-        query: CURSORS_QUERY,
+        query: POSTS_CURSORS_QUERY,
         context: { clientName: "wordPress" },
       })
       .then((res) => [

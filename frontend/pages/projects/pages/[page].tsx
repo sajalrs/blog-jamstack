@@ -7,9 +7,9 @@ import PostsList, { ITEMS_PER_PAGE } from "../../../components/PostsList";
 import { Post } from "../[slug]";
 import { MENU_QUERY, MenuListItem } from "../../../components/Navbar";
 
-export const POSTS_QUERY = gql`
-  query postsQuery($first: Int, $last: Int, $after: String, $before: String) {
-    posts(first: $first, last: $last, after: $after, before: $before) {
+export const PROJECTS_QUERY = gql`
+  query projectsQuery($first: Int, $last: Int, $after: String, $before: String) {
+    projects(first: $first, last: $last, after: $after, before: $before) {
       edges {
         node {
           date
@@ -20,10 +20,8 @@ export const POSTS_QUERY = gql`
             }
           }
           title
-          authorId
           id
           slug
-          excerpt
         }
       }
     }
@@ -37,9 +35,9 @@ type Props = {
   menuListItems: MenuListItem[];
 };
 
-export const POSTS_CURSORS_QUERY = gql`
-  query postsIDQuery {
-    posts {
+export const PROJECTS_CURSORS_QUERY = gql`
+  query projectsIDQuery {
+    projects {
       edges {
         cursor
       }
@@ -84,11 +82,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const apolloClient = initializeApollo();
 
   const { data } = await apolloClient.query({
-    query: POSTS_CURSORS_QUERY,
+    query: PROJECTS_CURSORS_QUERY,
     context: { clientName: "wordPress" },
   });
   let paths = [];
-  const numOfPages = Math.ceil(data.posts.edges.length / ITEMS_PER_PAGE);
+  const numOfPages = Math.ceil(data.projects.edges.length / ITEMS_PER_PAGE);
   for (let i = 1; i <= numOfPages; i++) {
     paths.push({ params: { page: i.toString() } });
   }
@@ -103,18 +101,18 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
     const cursors = await apolloClient
       .query({
-        query: POSTS_CURSORS_QUERY,
+        query: PROJECTS_CURSORS_QUERY,
         context: { clientName: "wordPress" },
       })
       .then((res) => [
-        res.data.posts.edges[0],
-        ...res.data.posts.edges.filter(
+        res.data.projects.edges[0],
+        ...res.data.projects.edges.filter(
           (_: string, index: number) => (index + 1) % ITEMS_PER_PAGE === 0
         ),
       ]);
 
     const { data } = await apolloClient.query({
-      query: POSTS_QUERY,
+      query: PROJECTS_QUERY,
       variables: {
         first: ITEMS_PER_PAGE,
         last: null,
@@ -139,7 +137,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
     return addApolloState(apolloClient, {
       props: {
-        posts: data.posts.edges.map((edge: { node: Post }) => edge.node),
+        posts: data.projects.edges.map((edge: { node: Post }) => edge.node),
         numOfPages: cursors.length,
         menuListItems,
       },
