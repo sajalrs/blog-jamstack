@@ -4,13 +4,6 @@ import { initializeApollo, addApolloState } from "../lib/apolloClient";
 import { GetStaticProps } from "next";
 import { MENU_QUERY, MenuListItem } from "../components/Navbar";
 import { useRouter } from "next/router";
-export type TeamMember = {
-  name: string;
-  description: string;
-  image: {
-    sourceUrl: string;
-  };
-};
 
 type Props = {
   errors?: string;
