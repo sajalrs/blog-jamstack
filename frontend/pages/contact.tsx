@@ -3,8 +3,6 @@ import Layout from "../components/Layout";
 import { initializeApollo, addApolloState } from "../lib/apolloClient";
 import { GetStaticProps } from "next";
 import { MENU_QUERY, MenuListItem } from "../components/Navbar";
-import { gql } from "@apollo/client";
-import TeamMemberCard from "../components/TeamMemberCard";
 import { useRouter } from "next/router";
 export type TeamMember = {
   name: string;
