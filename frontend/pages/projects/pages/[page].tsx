@@ -6,9 +6,14 @@ import { useRouter } from "next/router";
 import PostsList, { ITEMS_PER_PAGE } from "../../../components/PostsList";
 import { Post } from "../[slug]";
 import { MENU_QUERY, MenuListItem } from "../../../components/Navbar";
-
+import Carousel from "../../../components/ProjectsCarousel";
 export const PROJECTS_QUERY = gql`
-  query projectsQuery($first: Int, $last: Int, $after: String, $before: String) {
+  query projectsQuery(
+    $first: Int
+    $last: Int
+    $after: String
+    $before: String
+  ) {
     projects(first: $first, last: $last, after: $after, before: $before) {
       edges {
         node {
@@ -22,6 +27,7 @@ export const PROJECTS_QUERY = gql`
           title
           id
           slug
+          content
         }
       }
     }
@@ -48,7 +54,6 @@ export const PROJECTS_CURSORS_QUERY = gql`
 const IndexPage = ({ posts, errors, numOfPages, menuListItems }: Props) => {
   const router = useRouter();
   const pageNumber = parseInt(router.query.page.toString());
-
   if (errors) {
     return (
       <Layout
@@ -66,12 +71,10 @@ const IndexPage = ({ posts, errors, numOfPages, menuListItems }: Props) => {
       title="Home | Next.js + TypeScript Example"
       menuListItems={menuListItems}
     >
-      <PostsList
-        curDir=".."
-        posts={posts!}
-        pageNumber={pageNumber}
-        numOfPages={numOfPages}
-      />
+
+      {posts!.map((post) => {
+        return <Carousel content={post.content} />;
+      })}
     </Layout>
   );
 };
