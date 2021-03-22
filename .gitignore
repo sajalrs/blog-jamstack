@@ -3,5 +3,5 @@ node_modules
 npm-debug.log
 yarn-error.log
 data
-/frontend/.next/
-/frontend/next.config.js
+frontend/.next/
+frontend/next.config.js

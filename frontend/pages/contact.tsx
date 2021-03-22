@@ -5,7 +5,7 @@ import { GetStaticProps } from "next";
 import { MENU_QUERY, MenuListItem } from "../components/Navbar";
 import { gql } from "@apollo/client";
 import TeamMemberCard from "../components/TeamMemberCard";
-
+import { useRouter } from "next/router";
 export type TeamMember = {
   name: string;
   description: string;
@@ -33,6 +33,7 @@ const ContactPage = ({ errors, menuListItems }: Props) => {
     );
   }
 
+  const router = useRouter();
   const [formValues, setFormValues] = useState({
     fName: "",
     lName: "",
@@ -57,9 +58,22 @@ const ContactPage = ({ errors, menuListItems }: Props) => {
   };
 
   const onSend = () => {
-    alert(
-      `F: ${formValues.fName} L: ${formValues.lName} email: ${formValues.email} message: ${formValues.message}`
-    );
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ formValues }),
+    };
+
+    const wasSent = fetch(
+      "api/email",
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((data) => data.successful);
+
+    if (wasSent) {
+      router.push("/");
+    }
   };
 
   return (
@@ -72,7 +86,13 @@ const ContactPage = ({ errors, menuListItems }: Props) => {
           "flex flex-col justify-center items-center max-w-full m-1 md:m-4 overflow-x-hidden"
         }
       >
-        <form className="w-full max-w-lg" onSubmit={(e) => {e.preventDefault(); onSend();}}>
+        <form
+          className="w-full max-w-lg"
+          onSubmit={(e) => {
+            e.preventDefault();
+            onSend();
+          }}
+        >
           <div className="flex flex-wrap -mx-3 mb-6">
             <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
               <label
@@ -82,16 +102,16 @@ const ContactPage = ({ errors, menuListItems }: Props) => {
                 First Name
               </label>
               <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                 id="grid-first-name"
                 type="text"
                 value={formValues.fName}
                 onChange={(e) => setFirstName(e.target.value)}
                 placeholder="Jane"
               />
-              <p className="text-red-500 text-xs italic">
+              {/* <p className="text-red-500 text-xs italic">
                 Please fill out this field.
-              </p>
+              </p> */}
             </div>
             <div className="w-full md:w-1/2 px-3">
               <label
@@ -106,7 +126,6 @@ const ContactPage = ({ errors, menuListItems }: Props) => {
                 type="text"
                 value={formValues.lName}
                 onChange={(e) => setLastName(e.target.value)}
-             
                 placeholder="Doe"
               />
             </div>
@@ -126,9 +145,6 @@ const ContactPage = ({ errors, menuListItems }: Props) => {
                 value={formValues.email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <p className="text-gray-600 text-xs italic">
-                Some tips - as long as needed
-              </p>
             </div>
           </div>
           <div className="flex flex-wrap -mx-3 mb-6">
@@ -145,20 +161,15 @@ const ContactPage = ({ errors, menuListItems }: Props) => {
                 value={formValues.message}
                 onChange={(e) => setMessage(e.target.value)}
               ></textarea>
-              <p className="text-gray-600 text-xs italic">
-                Re-size can be disabled by set by resize-none / resize-y /
-                resize-x / resize
-              </p>
             </div>
           </div>
           <div className="md:flex md:items-center">
             <div className="md:w-1/3">
               <input
-                className="shadow bg-teal-400 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                className="font-bold py-2 px-4 rounded"
                 type="submit"
                 value="Send"
               />
-              
             </div>
             <div className="md:w-2/3"></div>
           </div>
