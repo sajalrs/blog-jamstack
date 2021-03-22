@@ -81,7 +81,7 @@ const FooterLinks = [
       },
       {
         title: "Contact Me",
-        pageURL: "/",
+        pageURL: "/contact",
       },
     ],
   },
