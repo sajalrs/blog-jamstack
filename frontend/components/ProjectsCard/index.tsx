@@ -7,6 +7,9 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { useRouter } from "next/router";
 import { Project } from "../../pages/projects/pages/[page]";
+import Link from "next/link";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import GitHubIcon from "@material-ui/icons/GitHub";
 
 type Props = {
   project: Project;
@@ -16,6 +19,8 @@ type Props = {
 const ProjectsCard = ({ project, curDir }: Props) => {
   const router = useRouter();
   const { title, slug, images, excerpt, githubURL, sourceURL } = project;
+  const urlRegex = /(https:\/\/(www.)?)|([\/])$/g;
+
   return (
     <Card>
       <CardContent>
@@ -31,14 +36,57 @@ const ProjectsCard = ({ project, curDir }: Props) => {
         </Typography>
       </CardContent>
       <CardContent>
+        {githubURL && (
+          <div>
+            <Link href={githubURL}>
+            <a
+                className={
+                  "text-base flex items-center w-min"
+                }
+              >
+               
+                <div className="mr-2">
+                <GitHubIcon/>
+                </div>
+                <div className={"underline text-blue-600 hover:text-blue-800 visited:text-purple-600"}>
+                {githubURL.replace(urlRegex, "")}
+                </div>
+              </a>
+            </Link>
+          </div>
+        )}
+
+        {sourceURL && (
+          <div>
+            <Link href={sourceURL}>
+                  <a
+                className={
+                  "text-base flex items-center w-min"
+                }
+              >
+              
+                <div className="mr-2">
+                <ExitToAppIcon/>
+                </div>
+                <div className={"underline text-blue-600 hover:text-blue-800 visited:text-purple-600"}>
+                {sourceURL.replace(urlRegex, "")}
+                </div>
+              </a>
+                
+              
+            </Link>
+          </div>
+        )}
+      </CardContent>
+      <CardContent>
         <Carousel images={images} />
       </CardContent>
       <CardContent>
-      <div
-            className={`min-w-full prose`}
-            dangerouslySetInnerHTML={{ __html:  excerpt}}
-          />
-      </CardContent>    
+        <div
+          className={`min-w-full prose`}
+          dangerouslySetInnerHTML={{ __html: excerpt }}
+        />
+      </CardContent>
       <CardActions>
         {/* <Button size="small" color="primary">
         Share
