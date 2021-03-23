@@ -54,7 +54,7 @@ const IndexPage = ({ posts, errors, numOfPages, menuListItems }: Props) => {
   if (errors) {
     return (
       <Layout
-        title="Error | Next.js + TypeScript Example"
+        title="Error"
         menuListItems={menuListItems}
       >
         <p>
@@ -65,7 +65,7 @@ const IndexPage = ({ posts, errors, numOfPages, menuListItems }: Props) => {
   }
   return (
     <Layout
-      title="Home | Next.js + TypeScript Example"
+      title="Blog"
       menuListItems={menuListItems}
     >
       <PostsList

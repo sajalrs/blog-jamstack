@@ -50,7 +50,7 @@ const Page = ({ page, errors, menuListItems }: Props) => {
     return (
       <Layout
         menuListItems={menuListItems}
-        title="Error | Next.js + TypeScript Example"
+        title="Error"
       >
         <p>
           <span style={{ color: "red" }}>Error:</span> {errors}
@@ -63,8 +63,8 @@ const Page = ({ page, errors, menuListItems }: Props) => {
     <Layout
       menuListItems={menuListItems}
       title={`${
-        page ? page.title : "User Detail"
-      } | Next.js + TypeScript Example`}
+        page ? page.title : "Page Detail"
+      }`}
     >
       <div className={`flex justify-center items-center max-w-full`}>
         <div className="m-4 max-w-4xl">

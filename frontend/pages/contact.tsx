@@ -15,7 +15,7 @@ const ContactPage = ({ errors, menuListItems }: Props) => {
     return (
       <Layout
         menuListItems={menuListItems}
-        title="Error | Next.js + TypeScript Example"
+        title="Error"
       >
         <p>
           <span style={{ color: "red" }}>Error:</span> {errors}
@@ -70,7 +70,7 @@ const ContactPage = ({ errors, menuListItems }: Props) => {
   return (
     <Layout
       menuListItems={menuListItems}
-      title="Home | Next.js + TypeScript Example"
+      title="Contact"
     >
       <div
         className={

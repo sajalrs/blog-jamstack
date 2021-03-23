@@ -63,7 +63,7 @@ const Post = ({ post, errors, menuListItems }: Props) => {
     return (
       <Layout
         menuListItems={menuListItems}
-        title="Error | Next.js + TypeScript Example"
+        title="Error"
       >
         <p>
           <span style={{ color: "red" }}>Error:</span> {errors}
@@ -75,8 +75,8 @@ const Post = ({ post, errors, menuListItems }: Props) => {
   return (
     <Layout
       title={`${
-        post ? post.title : "User Detail"
-      } | Next.js + TypeScript Example`}
+        post ? post.title : "Blog Detail"
+      }`}
       menuListItems={menuListItems}
     >
       <div

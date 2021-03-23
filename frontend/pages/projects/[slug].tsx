@@ -83,8 +83,8 @@ const Post = ({ post, errors, menuListItems }: Props) => {
   return (
     <Layout
       title={`${
-        post ? post.title : "User Detail"
-      } | Next.js + TypeScript Example`}
+        post ? post.title : "Project Detail"
+      }`}
       menuListItems={menuListItems}
     >
       <div
