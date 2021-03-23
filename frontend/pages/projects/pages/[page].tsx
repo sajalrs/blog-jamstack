@@ -164,8 +164,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
             slug: edge.node.slug,
             images: images,
             excerpt: edge.node.project.excerpt,
-            sourceURL: edge.node.project.sourceURL,
-            githubURL: edge.node.project.githubURL,
+            sourceURL: edge.node.project.sourceurl,
+            githubURL: edge.node.project.githuburl,
           };
         }),
         numOfPages: cursors.length,
