@@ -6,7 +6,8 @@ import { useRouter } from "next/router";
 import PostsList, { ITEMS_PER_PAGE } from "../../../components/PostsList";
 import { Post } from "../[slug]";
 import { MENU_QUERY, MenuListItem } from "../../../components/Navbar";
-import Carousel from "../../../components/ProjectsCarousel";
+// import Carousel from "../../../components/Carousel";
+import  ProjectsCard  from "../../../components/ProjectsCard";
 export const PROJECTS_QUERY = gql`
   query projectsQuery(
     $first: Int
@@ -18,14 +19,7 @@ export const PROJECTS_QUERY = gql`
       edges {
         node {
           date
-          featuredImage {
-            node {
-              title
-              sourceUrl
-            }
-          }
           title
-          id
           slug
           content
         }
@@ -34,8 +28,15 @@ export const PROJECTS_QUERY = gql`
   }
 `;
 
+export type Project = {
+  date: string;
+  title: string;
+  slug: string;
+  images: { img: string; caption: string }[];
+};
+
 type Props = {
-  posts?: Post[];
+  posts?: Project[];
   errors?: string;
   numOfPages: number;
   menuListItems: MenuListItem[];
@@ -71,9 +72,8 @@ const IndexPage = ({ posts, errors, numOfPages, menuListItems }: Props) => {
       title="Home | Next.js + TypeScript Example"
       menuListItems={menuListItems}
     >
-
       {posts!.map((post) => {
-        return <Carousel content={post.content} />;
+        return <ProjectsCard curDir=".." project={post} />;
       })}
     </Layout>
   );
@@ -138,9 +138,30 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         )
       );
 
+    const imgRex = /<figure.*>.*<img.*?src="(.*?)"[^>]+>.*<figcaption>(.*?)<\/figcaption><\/figure>/g;
+
     return addApolloState(apolloClient, {
       props: {
-        posts: data.projects.edges.map((edge: { node: Post }) => edge.node),
+        posts: data.projects.edges.map((edge: { node: Post }) => {
+          const images = [];
+          let img;
+          while ((img = imgRex.exec(edge.node.content))) {
+            images.push({
+              img: img[1],
+              caption: img[2]
+                .replace(`&#8217;`, "'")
+                .replace(`&#8220;`, "'")
+                .replace(`&#8221;`, "'"),
+            });
+          }
+
+          return {
+            date: edge.node.date,
+            title: edge.node.title,
+            slug: edge.node.slug,
+            images: images,
+          };
+        }),
         numOfPages: cursors.length,
         menuListItems,
       },
