@@ -3,11 +3,12 @@ import { initializeApollo, addApolloState } from "../../../lib/apolloClient";
 import { gql } from "@apollo/client";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
-import PostsList, { ITEMS_PER_PAGE } from "../../../components/PostsList";
+import { ITEMS_PER_PAGE } from "../../../components/PostsList";
 import { Post } from "../[slug]";
 import { MENU_QUERY, MenuListItem } from "../../../components/Navbar";
+import ProjectsList from "../../../components/ProjectsList";
 // import Carousel from "../../../components/Carousel";
-import  ProjectsCard  from "../../../components/ProjectsCard";
+import ProjectsCard from "../../../components/ProjectsCard";
 export const PROJECTS_QUERY = gql`
   query projectsQuery(
     $first: Int
@@ -72,9 +73,11 @@ const IndexPage = ({ posts, errors, numOfPages, menuListItems }: Props) => {
       title="Home | Next.js + TypeScript Example"
       menuListItems={menuListItems}
     >
-      {posts!.map((post) => {
-        return <ProjectsCard curDir=".." project={post} />;
-      })}
+      <ProjectsList 
+        projects={posts!}
+        curDir=".."
+        numOfPages={numOfPages}
+        pageNumber={pageNumber}/>
     </Layout>
   );
 };

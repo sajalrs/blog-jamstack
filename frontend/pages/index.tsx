@@ -5,14 +5,25 @@ import { Post } from "./posts/[slug]";
 import PostsList, { ITEMS_PER_PAGE } from "../components/PostsList";
 import { POSTS_CURSORS_QUERY, POSTS_QUERY } from "./posts/pages/[page]";
 import { MENU_QUERY, MenuListItem } from "../components/Navbar";
+import { PROJECTS_QUERY } from "./projects/pages/[page]";
+import { Project } from "./projects/pages/[page]";
+import ProjectsList from "../components/ProjectsList/index";
+import Typography from "@material-ui/core/Typography";
 type Props = {
   posts?: Post[];
+  projects?: Project[];
   errors?: string;
   numOfPages: number;
   menuListItems: MenuListItem[];
 };
 
-const IndexPage = ({ posts, errors, numOfPages, menuListItems }: Props) => {
+const IndexPage = ({
+  posts,
+  projects,
+  errors,
+  numOfPages,
+  menuListItems,
+}: Props) => {
   if (errors) {
     return (
       <Layout
@@ -31,6 +42,14 @@ const IndexPage = ({ posts, errors, numOfPages, menuListItems }: Props) => {
       menuListItems={menuListItems}
       title="Home | Next.js + TypeScript Example"
     >
+
+      <ProjectsList
+        projects={projects!}
+        curDir="/projects"
+        numOfPages={numOfPages}
+        pageNumber={1}
+      />
+     
       <PostsList
         curDir="/posts"
         posts={posts!}
@@ -59,32 +78,70 @@ export const getStaticProps: GetStaticProps = async () => {
         ),
       ]);
 
-    const { data } = await apolloClient.query({
-      query: POSTS_QUERY,
-      variables: {
-        first: ITEMS_PER_PAGE,
-        last: null,
-        after: null,
-        before: null,
-      },
-      context: { clientName: "wordPress" },
-    });
+    const posts = await apolloClient
+      .query({
+        query: POSTS_QUERY,
+        variables: {
+          first: ITEMS_PER_PAGE,
+          last: null,
+          after: null,
+          before: null,
+        },
+        context: { clientName: "wordPress" },
+      })
+      .then((res) => res.data.posts);
+
+    const projects = await apolloClient
+      .query({
+        query: PROJECTS_QUERY,
+        variables: {
+          first: ITEMS_PER_PAGE,
+          last: null,
+          after: null,
+          before: null,
+        },
+        context: { clientName: "wordPress" },
+      })
+      .then((res) => res.data.projects);
 
     const menuListItems = await apolloClient
       .query({
         query: MENU_QUERY,
         context: { clientName: "wordPress" },
       })
-      .then((res) => (
-        res.data.menuItems.nodes.map((node: {label: string, url: string}) => ({
-          title: node.label,
-          pageURL: node.url,
-        }))
-      ));
+      .then((res) =>
+        res.data.menuItems.nodes.map(
+          (node: { label: string; url: string }) => ({
+            title: node.label,
+            pageURL: node.url,
+          })
+        )
+      );
+
+    const imgRex = /<figure.*>.*<img.*?src="(.*?)"[^>]+>.*<figcaption>(.*?)<\/figcaption><\/figure>/g;
 
     return addApolloState(apolloClient, {
       props: {
-        posts: data.posts.edges.map((edge: { node: Post }) => edge.node),
+        projects: projects.edges.map((edge: { node: Post }) => {
+          const images = [];
+          let img;
+          while ((img = imgRex.exec(edge.node.content))) {
+            images.push({
+              img: img[1],
+              caption: img[2]
+                .replace(`&#8217;`, "'")
+                .replace(`&#8220;`, "'")
+                .replace(`&#8221;`, "'"),
+            });
+          }
+
+          return {
+            title: edge.node.title,
+            slug: edge.node.slug,
+            images: images,
+          };
+        }),
+        posts: posts.edges.map((edge: { node: Post }) => edge.node),
         numOfPages: cursors.length,
         menuListItems,
       },

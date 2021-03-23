@@ -47,6 +47,15 @@ export type Post = {
   };
 };
 
+
+export type Project = {
+  date: string;
+  title: string;
+  slug: string;
+  images: { img: string; caption: string }[];
+};
+
+
 type Props = {
   post?: Post;
   errors?: string;

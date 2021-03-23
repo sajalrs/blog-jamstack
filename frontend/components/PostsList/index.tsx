@@ -2,7 +2,7 @@ import React from "react";
 import { Post } from "../../pages/posts/[slug]";
 import PageNav from "../../components/PageNav";
 import MediaCard from "../Card";
-
+import Typography from "@material-ui/core/Typography";
 type Props = {
   posts: Post[];
   pageNumber: number;
@@ -14,6 +14,7 @@ export const ITEMS_PER_PAGE = 9;
 const PostsList = ({ posts, pageNumber, numOfPages, curDir }: Props) => {
   return (
     <div className="flex flex-col items-center">
+      <Typography variant="h2">Blog</Typography>
       <div className="grid grid-cols-1 md:grid-cols-3">
         {posts!.map((post: Post, index: number) => {
           return (

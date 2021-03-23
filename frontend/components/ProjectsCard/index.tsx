@@ -10,7 +10,7 @@ import { Project } from "../../pages/projects/pages/[page]";
 
 type Props = {
   project: Project;
-  curDir: string;
+  curDir?: string;
 };
 
 const ProjectsCard = ({ project, curDir }: Props) => {
