@@ -4,6 +4,7 @@ import { gql } from "@apollo/client";
 import { GetStaticProps, GetStaticPaths } from "next";
 import Typography from "@material-ui/core/Typography";
 import { MENU_QUERY, MenuListItem } from "../../components/Navbar";
+import projectStyles from "./project.module.scss";
 const PROJECT_QUERY = gql`
   query ProjectQuery($slug: String!) {
     projectBy(slug: $slug) {
@@ -14,7 +15,12 @@ const PROJECT_QUERY = gql`
 `;
 
 export const PROJECTS_SLUG_QUERY = gql`
-  query projectsQuery($first: Int, $last: Int, $after: String, $before: String) {
+  query projectsQuery(
+    $first: Int
+    $last: Int
+    $after: String
+    $before: String
+  ) {
     projects(first: $first, last: $last, after: $after, before: $before) {
       pageInfo {
         hasNextPage
@@ -43,10 +49,9 @@ export type Post = {
   featuredImage: {
     node: {
       sourceUrl: string;
-    }
+    };
   };
 };
-
 
 export type Project = {
   date: string;
@@ -54,7 +59,6 @@ export type Project = {
   slug: string;
   images: { img: string; caption: string }[];
 };
-
 
 type Props = {
   post?: Post;
@@ -94,6 +98,7 @@ const Post = ({ post, errors, menuListItems }: Props) => {
           </Typography>
           <div
             // eslint-disable-next-line react/no-danger
+            className={projectStyles.project}
             dangerouslySetInnerHTML={{
               __html: post?.content!!,
             }}
