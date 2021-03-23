@@ -58,6 +58,9 @@ export type Project = {
   title: string;
   slug: string;
   images: { img: string; caption: string }[];
+  excerpt: string;
+  githubURL: string;
+  sourceURL: string;
 };
 
 type Props = {

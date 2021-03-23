@@ -15,7 +15,7 @@ type Props = {
 
 const ProjectsCard = ({ project, curDir }: Props) => {
   const router = useRouter();
-  const { title, slug, images } = project;
+  const { title, slug, images, excerpt, githubURL, sourceURL } = project;
   return (
     <Card>
       <CardContent>
@@ -33,7 +33,12 @@ const ProjectsCard = ({ project, curDir }: Props) => {
       <CardContent>
         <Carousel images={images} />
       </CardContent>
-
+      <CardContent>
+      <div
+            className={`min-w-full prose`}
+            dangerouslySetInnerHTML={{ __html:  excerpt}}
+          />
+      </CardContent>    
       <CardActions>
         {/* <Button size="small" color="primary">
         Share

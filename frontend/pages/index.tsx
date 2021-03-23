@@ -137,7 +137,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
     return addApolloState(apolloClient, {
       props: {
-        projects: projects.edges.map((edge: { node: Post }) => {
+        projects: projects.edges.map((edge: { node: any }) => {
           const images = [];
           let img;
           while ((img = imgRex.exec(edge.node.content))) {
@@ -154,6 +154,9 @@ export const getStaticProps: GetStaticProps = async () => {
             title: edge.node.title,
             slug: edge.node.slug,
             images: images,
+            excerpt: edge.node.project.excerpt,
+            sourceURL: edge.node.project.sourceurl,
+            githubURL: edge.node.project.githuburl,
           };
         }),
         posts: posts.edges.map((edge: { node: Post }) => edge.node),

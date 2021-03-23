@@ -4,7 +4,6 @@ import { gql } from "@apollo/client";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import { ITEMS_PER_PAGE } from "../../../components/PostsList";
-import { Post } from "../[slug]";
 import { MENU_QUERY, MenuListItem } from "../../../components/Navbar";
 import ProjectsList from "../../../components/ProjectsList";
 // import Carousel from "../../../components/Carousel";
@@ -22,6 +21,11 @@ export const PROJECTS_QUERY = gql`
           title
           slug
           content
+          project {
+            excerpt
+            githuburl
+            sourceurl
+          }
         }
       }
     }
@@ -33,6 +37,9 @@ export type Project = {
   title: string;
   slug: string;
   images: { img: string; caption: string }[];
+  excerpt: string;
+  githubURL: string;
+  sourceURL: string;
 };
 
 type Props = {
@@ -57,10 +64,7 @@ const IndexPage = ({ posts, errors, numOfPages, menuListItems }: Props) => {
   const pageNumber = parseInt(router.query.page.toString());
   if (errors) {
     return (
-      <Layout
-        title="Error"
-        menuListItems={menuListItems}
-      >
+      <Layout title="Error" menuListItems={menuListItems}>
         <p>
           <span style={{ color: "red" }}>Error:</span> {errors}
         </p>
@@ -68,15 +72,13 @@ const IndexPage = ({ posts, errors, numOfPages, menuListItems }: Props) => {
     );
   }
   return (
-    <Layout
-      title="Projects"
-      menuListItems={menuListItems}
-    >
-      <ProjectsList 
+    <Layout title="Projects" menuListItems={menuListItems}>
+      <ProjectsList
         projects={posts!}
         curDir=".."
         numOfPages={numOfPages}
-        pageNumber={pageNumber}/>
+        pageNumber={pageNumber}
+      />
     </Layout>
   );
 };
@@ -144,7 +146,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
     return addApolloState(apolloClient, {
       props: {
-        posts: data.projects.edges.map((edge: { node: Post }) => {
+        posts: data.projects.edges.map((edge: { node: any }) => {
           const images = [];
           let img;
           while ((img = imgRex.exec(edge.node.content))) {
@@ -158,10 +160,12 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
           }
 
           return {
-        
             title: edge.node.title,
             slug: edge.node.slug,
             images: images,
+            excerpt: edge.node.project.excerpt,
+            sourceURL: edge.node.project.sourceURL,
+            githubURL: edge.node.project.githubURL,
           };
         }),
         numOfPages: cursors.length,
