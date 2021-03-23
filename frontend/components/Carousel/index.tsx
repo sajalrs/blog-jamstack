@@ -12,7 +12,7 @@ const Carousel = ({ images }: Props) => {
 
   const carouselItems = images.map((item) => (
     
-      <figure className="flex flex-col items-center justify-center">
+      <figure className="flex flex-col items-center justify-center max-w-full">
         <CardContent>
           <img
             src={item.img}
