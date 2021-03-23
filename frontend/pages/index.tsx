@@ -8,7 +8,7 @@ import { MENU_QUERY, MenuListItem } from "../components/Navbar";
 import { PROJECTS_QUERY } from "./projects/pages/[page]";
 import { Project } from "./projects/pages/[page]";
 import ProjectsList from "../components/ProjectsList/index";
-import Typography from "@material-ui/core/Typography";
+
 type Props = {
   posts?: Post[];
   projects?: Project[];

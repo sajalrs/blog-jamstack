@@ -8,7 +8,6 @@ import { Post } from "../[slug]";
 import { MENU_QUERY, MenuListItem } from "../../../components/Navbar";
 import ProjectsList from "../../../components/ProjectsList";
 // import Carousel from "../../../components/Carousel";
-import ProjectsCard from "../../../components/ProjectsCard";
 export const PROJECTS_QUERY = gql`
   query projectsQuery(
     $first: Int
@@ -159,7 +158,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
           }
 
           return {
-            date: edge.node.date,
+        
             title: edge.node.title,
             slug: edge.node.slug,
             images: images,
