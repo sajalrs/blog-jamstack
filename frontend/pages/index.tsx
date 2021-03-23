@@ -5,7 +5,7 @@ import { Post } from "./posts/[slug]";
 import PostsList, { ITEMS_PER_PAGE } from "../components/PostsList";
 import { POSTS_CURSORS_QUERY, POSTS_QUERY } from "./posts/pages/[page]";
 import { MENU_QUERY, MenuListItem } from "../components/Navbar";
-import { PROJECTS_QUERY } from "./projects/pages/[page]";
+import { PROJECTS_QUERY, PROJECTS_CURSORS_QUERY } from "./projects/pages/[page]";
 import { Project } from "./projects/pages/[page]";
 import ProjectsList from "../components/ProjectsList/index";
 
@@ -13,7 +13,8 @@ type Props = {
   posts?: Post[];
   projects?: Project[];
   errors?: string;
-  numOfPages: number;
+  numOfPostsPages: number;
+  numOfProjectsPages: number;
   menuListItems: MenuListItem[];
 };
 
@@ -21,7 +22,8 @@ const IndexPage = ({
   posts,
   projects,
   errors,
-  numOfPages,
+  numOfPostsPages,
+  numOfProjectsPages,
   menuListItems,
 }: Props) => {
   if (errors) {
@@ -46,7 +48,7 @@ const IndexPage = ({
       <ProjectsList
         projects={projects!}
         curDir="/projects"
-        numOfPages={numOfPages}
+        numOfPages={numOfProjectsPages}
         pageNumber={1}
       />
      
@@ -54,7 +56,7 @@ const IndexPage = ({
         curDir="/posts"
         posts={posts!}
         pageNumber={1}
-        numOfPages={numOfPages}
+        numOfPages={numOfPostsPages}
       />
     </Layout>
   );
@@ -66,7 +68,7 @@ export const getStaticProps: GetStaticProps = async () => {
   try {
     const apolloClient = initializeApollo();
 
-    const cursors = await apolloClient
+    const postsCursors = await apolloClient
       .query({
         query: POSTS_CURSORS_QUERY,
         context: { clientName: "wordPress" },
@@ -77,6 +79,19 @@ export const getStaticProps: GetStaticProps = async () => {
           (_: string, index: number) => (index + 1) % ITEMS_PER_PAGE === 0
         ),
       ]);
+
+      const projectsCursors = await apolloClient
+      .query({
+        query: PROJECTS_CURSORS_QUERY,
+        context: { clientName: "wordPress" },
+      })
+      .then((res) => [
+        res.data.projects.edges[0],
+        ...res.data.projects.edges.filter(
+          (_: string, index: number) => (index + 1) % ITEMS_PER_PAGE === 0
+        ),
+      ]);
+
 
     const posts = await apolloClient
       .query({
@@ -142,7 +157,8 @@ export const getStaticProps: GetStaticProps = async () => {
           };
         }),
         posts: posts.edges.map((edge: { node: Post }) => edge.node),
-        numOfPages: cursors.length,
+        numOfPostsPages: postsCursors.length,
+        numOfProjectsPages: projectsCursors.length,
         menuListItems,
       },
     });
