@@ -28,7 +28,7 @@ const ProjectsCard = ({ project, curDir }: Props) => {
   } = project;
   const urlRegex = /(https:\/\/(www.)?)|([\/])$/g;
   return (
-    <Card>
+    <Card className="max-w-sm md:max-w-4xl">
       <CardContent>
         <Typography
           style={{ cursor: "pointer" }}
@@ -85,7 +85,7 @@ const ProjectsCard = ({ project, curDir }: Props) => {
           (<Button color="primary" variant="contained" style={{margin: "0.25rem", borderRadius: "1rem"}} component="div" onClick={() => {}}>{category}</Button>)
         )}
       </CardContent>
-      <CardContent>
+      <CardContent >
         <Carousel images={images} />
       </CardContent>
       <CardContent>
