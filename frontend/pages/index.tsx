@@ -8,6 +8,7 @@ import { MENU_QUERY, MenuListItem } from "../components/Navbar";
 import {
   PROJECTS_QUERY,
   PROJECTS_CURSORS_QUERY,
+  PROJECT_CATEGORIES_QUERY,
 } from "./projects/pages/[page]";
 import { Project } from "./projects/pages/[page]";
 import ProjectsList, { PROJECTS_PER_PAGE } from "../components/ProjectsList";
@@ -129,35 +130,64 @@ export const getStaticProps: GetStaticProps = async () => {
 
     const imgRex = /<figure.*>.*<img.*?src="(.*?)"[^>]+>.*<figcaption>(.*?)<\/figcaption><\/figure>/g;
 
+
+
     return addApolloState(apolloClient, {
       props: {
-        projects: projects.edges.map((edge: { node: any }) => {
-          const images = [];
-          let img;
-          while ((img = imgRex.exec(edge.node.content))) {
-            images.push({
-              img: img[1],
-              caption: img[2]
-                .replace(`&#8217;`, "'")
-                .replace(`&#8220;`, "'")
-                .replace(`&#8221;`, "'"),
-            });
-          }
-          // console.log(edge.node.categories);
-          return {
-            title: edge.node.title,
-            slug: edge.node.slug,
-            images: images,
-            excerpt: edge.node.project.excerpt,
-            sourceURL: edge.node.project.sourceurl,
-            githubURL: edge.node.project.githuburl,
-            categories: edge.node.categories.nodes.map(
-              (node: { name: string }) => {
-                return node.name;
-              }
-            ),
-          };
-        }),
+        projects:  await Promise.all(
+          projects.edges.map(async (edge: { node: any }) => {
+            const images = [];
+            let img;
+            while ((img = imgRex.exec(edge.node.content))) {
+              images.push({
+                img: img[1],
+                caption: img[2]
+                  .replace(`&#8217;`, "'")
+                  .replace(`&#8220;`, "'")
+                  .replace(`&#8221;`, "'"),
+              });
+            }
+            const categories = edge.node.categories.edges.map(
+              (edge: { node: { name: string } }) => edge.node.name
+            );
+    
+            let hasNextPage = edge.node.categories.pageInfo.hasNextPage;
+            let nextCursor = edge.node.categories.pageInfo.endCursor;
+            while (hasNextPage) {
+              const  {data} : any = await apolloClient.query({
+                query: PROJECT_CATEGORIES_QUERY,
+                variables: {
+                  first: 10,
+                  last: null,
+                  after: nextCursor,
+                  before: null,
+                  slug: edge.node.slug,
+                },
+                context: { clientName: "wordPress" },
+              });
+    
+              // console.log(data.projectsBy.pageInfo);
+              categories.push(
+                ...data.projectBy.categories.edges.map(
+                  (edge: { node: { name: string } }) => edge.node.name
+                )
+              );
+              hasNextPage = data.projectBy.categories.pageInfo.hasNextPage;
+              nextCursor = data.projectBy.categories.pageInfo.endCursor;
+            }
+            // console.log(categories);
+            // console.log(edge.node.categories);
+            return {
+              title: edge.node.title,
+              slug: edge.node.slug,
+              images: images,
+              excerpt: edge.node.project.excerpt,
+              sourceURL: edge.node.project.sourceurl,
+              githubURL: edge.node.project.githuburl,
+              categories,
+            };
+          })
+        ),
         posts: posts.edges.map((edge: { node: Post }) => edge.node),
         numOfPostsPages: postsCursors.length,
         numOfProjectsPages: projectsCursors.length,

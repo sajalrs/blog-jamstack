@@ -27,9 +27,18 @@ export const PROJECTS_QUERY = gql`
             githuburl
             sourceurl
           }
-          categories {
-            nodes {
-              name
+          categories(first: 10, before: null, after: null, last: null) {
+            edges {
+              cursor
+              node {
+                name
+              }
+            }
+            pageInfo {
+              hasNextPage
+              hasPreviousPage
+              startCursor
+              endCursor
             }
           }
         }
@@ -64,6 +73,32 @@ export const PROJECTS_CURSORS_QUERY = gql`
       }
     }
   }
+`;
+
+export const PROJECT_CATEGORIES_QUERY = gql`query projectCategoriesQuery(
+    $first: Int
+    $last: Int
+    $after: String
+    $before: String
+    $slug: String
+  ) {
+    projectBy(slug: $slug) {
+      categories(first: $first, last: $last, after: $after, before: $before) {
+        pageInfo {
+          endCursor
+          hasNextPage
+          hasPreviousPage
+          startCursor
+        }
+        edges {
+          node {
+            name
+          }
+          cursor
+        }
+      }
+  }
+}
 `;
 
 const IndexPage = ({ posts, errors, numOfPages, menuListItems }: Props) => {
@@ -153,31 +188,58 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
     return addApolloState(apolloClient, {
       props: {
-        posts: data.projects.edges.map((edge: { node: any }) => {
-          const images = [];
-          let img;
-          while ((img = imgRex.exec(edge.node.content))) {
-            images.push({
-              img: img[1],
-              caption: img[2]
-                .replace(`&#8217;`, "'")
-                .replace(`&#8220;`, "'")
-                .replace(`&#8221;`, "'"),
-            });
-          }
+        posts:  await Promise.all(
+          data.projects.edges.map(async (edge: { node: any }) => {
+            const images = [];
+            let img;
+            while ((img = imgRex.exec(edge.node.content))) {
+              images.push({
+                img: img[1],
+                caption: img[2]
+                  .replace(`&#8217;`, "'")
+                  .replace(`&#8220;`, "'")
+                  .replace(`&#8221;`, "'"),
+              });
+            }
+            const categories = edge.node.categories.edges.map(
+              (edge: { node: { name: string } }) => edge.node.name
+            );
+    
+            let hasNextPage = edge.node.categories.pageInfo.hasNextPage;
+            let nextCursor = edge.node.categories.pageInfo.endCursor;
+            while (hasNextPage) {
+              const  {data} : any = await apolloClient.query({
+                query: PROJECT_CATEGORIES_QUERY,
+                variables: {
+                  first: 10,
+                  last: null,
+                  after: nextCursor,
+                  before: null,
+                  slug: edge.node.slug,
+                },
+                context: { clientName: "wordPress" },
+              });
+    
+              categories.push(
+                ...data.projectBy.categories.edges.map(
+                  (edge: { node: { name: string } }) => edge.node.name
+                )
+              );
+              hasNextPage = data.projectBy.categories.pageInfo.hasNextPage;
+              nextCursor = data.projectBy.categories.pageInfo.endCursor;
+            }
 
-          return {
-            title: edge.node.title,
-            slug: edge.node.slug,
-            images: images,
-            excerpt: edge.node.project.excerpt,
-            sourceURL: edge.node.project.sourceurl,
-            githubURL: edge.node.project.githuburl,
-            categories: edge.node.categories.nodes.map(
-              (node: { name: string }) => node.name
-            ),
-          };
-        }),
+            return {
+              title: edge.node.title,
+              slug: edge.node.slug,
+              images: images,
+              excerpt: edge.node.project.excerpt,
+              sourceURL: edge.node.project.sourceurl,
+              githubURL: edge.node.project.githuburl,
+              categories,
+            };
+          })
+        ),
         numOfPages: cursors.length,
         menuListItems,
       },
