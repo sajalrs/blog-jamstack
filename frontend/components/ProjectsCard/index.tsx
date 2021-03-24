@@ -28,7 +28,7 @@ const ProjectsCard = ({ project, curDir }: Props) => {
   } = project;
   const urlRegex = /(https:\/\/(www.)?)|([\/])$/g;
   return (
-    <Card className="max-w-sm md:max-w-4xl">
+    <Card variant={"outlined"} className="max-w-sm md:max-w-4xl">
       <CardContent>
         <Typography
           style={{ cursor: "pointer" }}

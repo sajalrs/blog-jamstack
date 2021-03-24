@@ -196,6 +196,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
               images.push({
                 img: img[1],
                 caption: img[2]
+                .replace(`&#8216;`, "‘")
                   .replace(`&#8217;`, "'")
                   .replace(`&#8220;`, "'")
                   .replace(`&#8221;`, "'"),

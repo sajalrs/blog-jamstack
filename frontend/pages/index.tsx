@@ -130,11 +130,9 @@ export const getStaticProps: GetStaticProps = async () => {
 
     const imgRex = /<figure.*>.*<img.*?src="(.*?)"[^>]+>.*<figcaption>(.*?)<\/figcaption><\/figure>/g;
 
-
-
     return addApolloState(apolloClient, {
       props: {
-        projects:  await Promise.all(
+        projects: await Promise.all(
           projects.edges.map(async (edge: { node: any }) => {
             const images = [];
             let img;
@@ -142,6 +140,7 @@ export const getStaticProps: GetStaticProps = async () => {
               images.push({
                 img: img[1],
                 caption: img[2]
+                  .replace(`&#8216;`, "‘")
                   .replace(`&#8217;`, "'")
                   .replace(`&#8220;`, "'")
                   .replace(`&#8221;`, "'"),
@@ -150,11 +149,11 @@ export const getStaticProps: GetStaticProps = async () => {
             const categories = edge.node.categories.edges.map(
               (edge: { node: { name: string } }) => edge.node.name
             );
-    
+
             let hasNextPage = edge.node.categories.pageInfo.hasNextPage;
             let nextCursor = edge.node.categories.pageInfo.endCursor;
             while (hasNextPage) {
-              const  {data} : any = await apolloClient.query({
+              const { data }: any = await apolloClient.query({
                 query: PROJECT_CATEGORIES_QUERY,
                 variables: {
                   first: 10,
@@ -165,7 +164,7 @@ export const getStaticProps: GetStaticProps = async () => {
                 },
                 context: { clientName: "wordPress" },
               });
-    
+
               categories.push(
                 ...data.projectBy.categories.edges.map(
                   (edge: { node: { name: string } }) => edge.node.name

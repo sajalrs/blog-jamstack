@@ -46,7 +46,7 @@ const MediaCard = ({
   const classes = useStyles();
   const router = useRouter();
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} variant={"outlined"}>
       <CardActionArea
         onClick={() => {
           router.push(link);
