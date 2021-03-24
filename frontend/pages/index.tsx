@@ -166,7 +166,6 @@ export const getStaticProps: GetStaticProps = async () => {
                 context: { clientName: "wordPress" },
               });
     
-              // console.log(data.projectsBy.pageInfo);
               categories.push(
                 ...data.projectBy.categories.edges.map(
                   (edge: { node: { name: string } }) => edge.node.name
@@ -175,8 +174,7 @@ export const getStaticProps: GetStaticProps = async () => {
               hasNextPage = data.projectBy.categories.pageInfo.hasNextPage;
               nextCursor = data.projectBy.categories.pageInfo.endCursor;
             }
-            // console.log(categories);
-            // console.log(edge.node.categories);
+
             return {
               title: edge.node.title,
               slug: edge.node.slug,
