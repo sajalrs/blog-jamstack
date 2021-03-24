@@ -3,9 +3,10 @@ import { initializeApollo, addApolloState } from "../../../lib/apolloClient";
 import { gql } from "@apollo/client";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
-import { ITEMS_PER_PAGE } from "../../../components/PostsList";
 import { MENU_QUERY, MenuListItem } from "../../../components/Navbar";
-import ProjectsList from "../../../components/ProjectsList";
+import ProjectsList, {
+  PROJECTS_PER_PAGE,
+} from "../../../components/ProjectsList";
 // import Carousel from "../../../components/Carousel";
 export const PROJECTS_QUERY = gql`
   query projectsQuery(
@@ -99,7 +100,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     context: { clientName: "wordPress" },
   });
   let paths = [];
-  const numOfPages = Math.ceil(data.projects.edges.length / ITEMS_PER_PAGE);
+  const numOfPages = Math.ceil(data.projects.edges.length / PROJECTS_PER_PAGE);
   for (let i = 1; i <= numOfPages; i++) {
     paths.push({ params: { page: i.toString() } });
   }
@@ -120,14 +121,14 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       .then((res) => [
         res.data.projects.edges[0],
         ...res.data.projects.edges.filter(
-          (_: string, index: number) => (index + 1) % ITEMS_PER_PAGE === 0
+          (_: string, index: number) => (index + 1) % PROJECTS_PER_PAGE === 0
         ),
       ]);
 
     const { data } = await apolloClient.query({
       query: PROJECTS_QUERY,
       variables: {
-        first: ITEMS_PER_PAGE,
+        first: PROJECTS_PER_PAGE,
         last: null,
         after: page === 1 ? null : cursors[page - 1].cursor,
         before: null,

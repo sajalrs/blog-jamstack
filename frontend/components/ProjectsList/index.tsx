@@ -1,6 +1,6 @@
 import React from "react";
 import { Project } from "../../pages/projects/[slug]";
-import PageNav from "../../components/PageNav";
+import PageNav, {CardType} from "../../components/PageNav";
 import ProjectsCard from "../../components/ProjectsCard";
 import Typography from "@material-ui/core/Typography";
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
   curDir?: string;
 };
 
-export const ITEMS_PER_PAGE = 9;
+export const PROJECTS_PER_PAGE = 5;
 const ProjectsList = ({ projects, pageNumber, numOfPages, curDir }: Props) => {
   return (
     <div className="flex flex-col items-center">
@@ -23,7 +23,7 @@ const ProjectsList = ({ projects, pageNumber, numOfPages, curDir }: Props) => {
         );
       })}
 
-      <PageNav pageNumber={pageNumber} numOfPages={numOfPages} />
+      <PageNav type={CardType.PROJECT} pageNumber={pageNumber} numOfPages={numOfPages} />
     </div>
   );
 };

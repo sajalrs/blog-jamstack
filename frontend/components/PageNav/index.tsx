@@ -10,9 +10,15 @@ type Props = {
   pageNumber: number;
   numOfPages: number;
   curDir?: String;
+  type: CardType;
 };
 
-const PageNav = ({ pageNumber, numOfPages, curDir = "" }: Props) => {
+export enum CardType  {
+  POST = "Post",
+  PROJECT = "Project",
+}
+
+const PageNav = ({ pageNumber, numOfPages, curDir = "", type }: Props) => {
   const router = useRouter();
   let navigablePages = [];
   let start =
@@ -21,11 +27,18 @@ const PageNav = ({ pageNumber, numOfPages, curDir = "" }: Props) => {
     NUM_OF_NAV_PAGES * Math.ceil(pageNumber / NUM_OF_NAV_PAGES),
     numOfPages
   );
+  let url: string;
+  if (type === CardType.POST) {
+    url = `${curDir}/posts/pages`;
+  } else {
+    url = `${curDir}/projects/pages`;
+  }
+
   if (pageNumber !== 1) {
     navigablePages.push(
       <IconButton
         onClick={() => {
-          router.push(`${curDir}/posts/pages/${pageNumber - 1}`);
+          router.push(`${url}/${pageNumber - 1}`);
         }}
       >
         <NavigateBeforeIcon />
@@ -37,7 +50,7 @@ const PageNav = ({ pageNumber, numOfPages, curDir = "" }: Props) => {
     navigablePages.push(
       <IconButton
         onClick={() => {
-          router.push(`${curDir}/posts/pages/${start - 1}`);
+          router.push(`${url}/${start - 1}`);
         }}
       >
         {"..."}
@@ -46,12 +59,12 @@ const PageNav = ({ pageNumber, numOfPages, curDir = "" }: Props) => {
   }
 
   for (let i = start; i <= end; i++) {
-if(pageNumber === i) {
+    if (pageNumber === i) {
       navigablePages.push(
         <IconButton
           disabled
           onClick={() => {
-            router.push(`${curDir}/posts/pages/${i}`);
+            router.push(`${url}/${i}`);
           }}
         >
           {i}
@@ -61,7 +74,7 @@ if(pageNumber === i) {
       navigablePages.push(
         <IconButton
           onClick={() => {
-            router.push(`${curDir}/posts/pages/${i}`);
+            router.push(`${url}/${i}`);
           }}
         >
           {i}
@@ -74,7 +87,7 @@ if(pageNumber === i) {
     navigablePages.push(
       <IconButton
         onClick={() => {
-          router.push(`${curDir}/posts/pages/${end + 1}`);
+          router.push(`${url}/${end + 1}`);
         }}
       >
         {"..."}
@@ -82,14 +95,16 @@ if(pageNumber === i) {
     );
   }
 
-  if (pageNumber !== numOfPages) {  
-    navigablePages.push(<IconButton
-      onClick={() => {
-        router.push(`${curDir}/posts/pages/${pageNumber + 1}`);
-      }}
-    >
-      <NavigateNextIcon />
-    </IconButton>);
+  if (pageNumber !== numOfPages) {
+    navigablePages.push(
+      <IconButton
+        onClick={() => {
+          router.push(`${url}/${pageNumber + 1}`);
+        }}
+      >
+        <NavigateNextIcon />
+      </IconButton>
+    );
   }
 
   return <nav>{navigablePages}</nav>;

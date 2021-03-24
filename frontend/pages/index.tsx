@@ -2,7 +2,7 @@ import Layout from "../components/Layout";
 import { initializeApollo, addApolloState } from "../lib/apolloClient";
 import { GetStaticProps } from "next";
 import { Post } from "./posts/[slug]";
-import PostsList, { ITEMS_PER_PAGE } from "../components/PostsList";
+import PostsList, { POSTS_PER_PAGE } from "../components/PostsList";
 import { POSTS_CURSORS_QUERY, POSTS_QUERY } from "./posts/pages/[page]";
 import { MENU_QUERY, MenuListItem } from "../components/Navbar";
 import {
@@ -10,8 +10,7 @@ import {
   PROJECTS_CURSORS_QUERY,
 } from "./projects/pages/[page]";
 import { Project } from "./projects/pages/[page]";
-import ProjectsList from "../components/ProjectsList/index";
-
+import ProjectsList, { PROJECTS_PER_PAGE } from "../components/ProjectsList";
 type Props = {
   posts?: Post[];
   projects?: Project[];
@@ -37,10 +36,9 @@ const IndexPage = ({
         </p>
       </Layout>
     );
-  }   
+  }
 
   return (
-
     <Layout menuListItems={menuListItems} title="Home">
       <ProjectsList
         projects={projects!}
@@ -73,7 +71,7 @@ export const getStaticProps: GetStaticProps = async () => {
       .then((res) => [
         res.data.posts.edges[0],
         ...res.data.posts.edges.filter(
-          (_: string, index: number) => (index + 1) % ITEMS_PER_PAGE === 0
+          (_: string, index: number) => (index + 1) % POSTS_PER_PAGE === 0
         ),
       ]);
 
@@ -85,7 +83,7 @@ export const getStaticProps: GetStaticProps = async () => {
       .then((res) => [
         res.data.projects.edges[0],
         ...res.data.projects.edges.filter(
-          (_: string, index: number) => (index + 1) % ITEMS_PER_PAGE === 0
+          (_: string, index: number) => (index + 1) % PROJECTS_PER_PAGE === 0
         ),
       ]);
 
@@ -93,7 +91,7 @@ export const getStaticProps: GetStaticProps = async () => {
       .query({
         query: POSTS_QUERY,
         variables: {
-          first: ITEMS_PER_PAGE,
+          first: POSTS_PER_PAGE,
           last: null,
           after: null,
           before: null,
@@ -106,7 +104,7 @@ export const getStaticProps: GetStaticProps = async () => {
       .query({
         query: PROJECTS_QUERY,
         variables: {
-          first: ITEMS_PER_PAGE,
+          first: PROJECTS_PER_PAGE,
           last: null,
           after: null,
           before: null,

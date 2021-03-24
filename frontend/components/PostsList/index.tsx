@@ -1,8 +1,9 @@
 import React from "react";
 import { Post } from "../../pages/posts/[slug]";
-import PageNav from "../../components/PageNav";
+import PageNav, {CardType} from "../../components/PageNav";
 import MediaCard from "../Card";
 import Typography from "@material-ui/core/Typography";
+
 type Props = {
   posts: Post[];
   pageNumber: number;
@@ -10,7 +11,7 @@ type Props = {
   curDir?: string;
 };
 
-export const ITEMS_PER_PAGE = 9;
+export const POSTS_PER_PAGE = 9;
 const PostsList = ({ posts, pageNumber, numOfPages, curDir }: Props) => {
   return (
     <div className="flex flex-col items-center">
@@ -37,7 +38,7 @@ const PostsList = ({ posts, pageNumber, numOfPages, curDir }: Props) => {
           );
         })}
       </div>
-      <PageNav pageNumber={pageNumber} numOfPages={numOfPages} />
+      <PageNav type={CardType.POST} pageNumber={pageNumber} numOfPages={numOfPages} />
     </div>
   );
 };

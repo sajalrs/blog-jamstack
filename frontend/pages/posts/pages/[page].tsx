@@ -3,7 +3,7 @@ import { initializeApollo, addApolloState } from "../../../lib/apolloClient";
 import { gql } from "@apollo/client";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
-import PostsList, { ITEMS_PER_PAGE } from "../../../components/PostsList";
+import PostsList, { POSTS_PER_PAGE } from "../../../components/PostsList";
 import { Post } from "../[slug]";
 import { MENU_QUERY, MenuListItem } from "../../../components/Navbar";
 
@@ -88,7 +88,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     context: { clientName: "wordPress" },
   });
   let paths = [];
-  const numOfPages = Math.ceil(data.posts.edges.length / ITEMS_PER_PAGE);
+  const numOfPages = Math.ceil(data.posts.edges.length / POSTS_PER_PAGE);
   for (let i = 1; i <= numOfPages; i++) {
     paths.push({ params: { page: i.toString() } });
   }
@@ -109,14 +109,14 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       .then((res) => [
         res.data.posts.edges[0],
         ...res.data.posts.edges.filter(
-          (_: string, index: number) => (index + 1) % ITEMS_PER_PAGE === 0
+          (_: string, index: number) => (index + 1) % POSTS_PER_PAGE === 0
         ),
       ]);
 
     const { data } = await apolloClient.query({
       query: POSTS_QUERY,
       variables: {
-        first: ITEMS_PER_PAGE,
+        first: POSTS_PER_PAGE,
         last: null,
         after: page === 1 ? null : cursors[page - 1].cursor,
         before: null,

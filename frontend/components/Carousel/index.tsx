@@ -16,7 +16,7 @@ const Carousel = ({ images }: Props) => {
         <CardContent>
           <img
             src={item.img}
-            style={{ maxHeight: "40rem" }}
+            style={{ maxHeight: "40rem", minHeight: "30rem" }}
             className="object-cover"
           />
         </CardContent>
