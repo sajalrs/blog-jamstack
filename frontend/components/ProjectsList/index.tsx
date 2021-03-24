@@ -10,7 +10,7 @@ type Props = {
   curDir?: string;
 };
 
-export const PROJECTS_PER_PAGE = 5;
+export const PROJECTS_PER_PAGE = 10;
 const ProjectsList = ({ projects, pageNumber, numOfPages, curDir }: Props) => {
   return (
     <div className="flex flex-col items-center">
