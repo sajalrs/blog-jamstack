@@ -26,6 +26,11 @@ export const PROJECTS_QUERY = gql`
             githuburl
             sourceurl
           }
+          categories {
+            nodes {
+              name
+            }
+          }
         }
       }
     }
@@ -40,6 +45,7 @@ export type Project = {
   excerpt: string;
   githubURL: string;
   sourceURL: string;
+  categories: string[];
 };
 
 type Props = {
@@ -166,6 +172,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
             excerpt: edge.node.project.excerpt,
             sourceURL: edge.node.project.sourceurl,
             githubURL: edge.node.project.githuburl,
+            categories: edge.node.categories.nodes.map(
+              (node: { name: string }) => node.name
+            ),
           };
         }),
         numOfPages: cursors.length,

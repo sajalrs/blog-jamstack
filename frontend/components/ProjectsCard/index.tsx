@@ -10,7 +10,6 @@ import { Project } from "../../pages/projects/pages/[page]";
 import Link from "next/link";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import GitHubIcon from "@material-ui/icons/GitHub";
-
 type Props = {
   project: Project;
   curDir?: string;
@@ -18,9 +17,16 @@ type Props = {
 
 const ProjectsCard = ({ project, curDir }: Props) => {
   const router = useRouter();
-  const { title, slug, images, excerpt, githubURL, sourceURL } = project;
+  const {
+    title,
+    slug,
+    images,
+    excerpt,
+    githubURL,
+    sourceURL,
+    categories,
+  } = project;
   const urlRegex = /(https:\/\/(www.)?)|([\/])$/g;
-
   return (
     <Card>
       <CardContent>
@@ -39,17 +45,16 @@ const ProjectsCard = ({ project, curDir }: Props) => {
         {githubURL && (
           <div>
             <Link href={githubURL}>
-            <a
-                className={
-                  "text-base flex items-center w-min"
-                }
-              >
-               
+              <a className={"text-base flex items-center w-min"}>
                 <div className="mr-2">
-                <GitHubIcon/>
+                  <GitHubIcon />
                 </div>
-                <div className={"underline text-blue-600 hover:text-blue-800 visited:text-purple-600"}>
-                {githubURL.replace(urlRegex, "")}
+                <div
+                  className={
+                    "underline text-blue-600 hover:text-blue-800 visited:text-purple-600"
+                  }
+                >
+                  {githubURL.replace(urlRegex, "")}
                 </div>
               </a>
             </Link>
@@ -59,23 +64,25 @@ const ProjectsCard = ({ project, curDir }: Props) => {
         {sourceURL && (
           <div>
             <Link href={sourceURL}>
-                  <a
-                className={
-                  "text-base flex items-center w-min"
-                }
-              >
-              
+              <a className={"text-base flex items-center w-min"}>
                 <div className="mr-2">
-                <ExitToAppIcon/>
+                  <ExitToAppIcon />
                 </div>
-                <div className={"underline text-blue-600 hover:text-blue-800 visited:text-purple-600"}>
-                {sourceURL.replace(urlRegex, "")}
+                <div
+                  className={
+                    "underline text-blue-600 hover:text-blue-800 visited:text-purple-600"
+                  }
+                >
+                  {sourceURL.replace(urlRegex, "")}
                 </div>
               </a>
-                
-              
             </Link>
           </div>
+        )}
+      </CardContent>
+      <CardContent>
+        {categories.map((category) => 
+          (<Button color="primary" variant="contained" style={{margin: "0.25rem", borderRadius: "1rem"}} component="div" onClick={() => {}}>{category}</Button>)
         )}
       </CardContent>
       <CardContent>

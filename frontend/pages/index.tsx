@@ -5,7 +5,10 @@ import { Post } from "./posts/[slug]";
 import PostsList, { ITEMS_PER_PAGE } from "../components/PostsList";
 import { POSTS_CURSORS_QUERY, POSTS_QUERY } from "./posts/pages/[page]";
 import { MENU_QUERY, MenuListItem } from "../components/Navbar";
-import { PROJECTS_QUERY, PROJECTS_CURSORS_QUERY } from "./projects/pages/[page]";
+import {
+  PROJECTS_QUERY,
+  PROJECTS_CURSORS_QUERY,
+} from "./projects/pages/[page]";
 import { Project } from "./projects/pages/[page]";
 import ProjectsList from "../components/ProjectsList/index";
 
@@ -28,30 +31,24 @@ const IndexPage = ({
 }: Props) => {
   if (errors) {
     return (
-      <Layout
-        menuListItems={menuListItems}
-        title="Error"
-      >
+      <Layout menuListItems={menuListItems} title="Error">
         <p>
           <span style={{ color: "red" }}>Error:</span> {errors}
         </p>
       </Layout>
     );
-  }
+  }   
 
   return (
-    <Layout
-      menuListItems={menuListItems}
-      title="Home"
-    >
 
+    <Layout menuListItems={menuListItems} title="Home">
       <ProjectsList
         projects={projects!}
         curDir="/projects"
         numOfPages={numOfProjectsPages}
         pageNumber={1}
       />
-     
+
       <PostsList
         curDir="/posts"
         posts={posts!}
@@ -80,7 +77,7 @@ export const getStaticProps: GetStaticProps = async () => {
         ),
       ]);
 
-      const projectsCursors = await apolloClient
+    const projectsCursors = await apolloClient
       .query({
         query: PROJECTS_CURSORS_QUERY,
         context: { clientName: "wordPress" },
@@ -91,7 +88,6 @@ export const getStaticProps: GetStaticProps = async () => {
           (_: string, index: number) => (index + 1) % ITEMS_PER_PAGE === 0
         ),
       ]);
-
 
     const posts = await apolloClient
       .query({
@@ -149,7 +145,7 @@ export const getStaticProps: GetStaticProps = async () => {
                 .replace(`&#8221;`, "'"),
             });
           }
-
+          // console.log(edge.node.categories);
           return {
             title: edge.node.title,
             slug: edge.node.slug,
@@ -157,6 +153,11 @@ export const getStaticProps: GetStaticProps = async () => {
             excerpt: edge.node.project.excerpt,
             sourceURL: edge.node.project.sourceurl,
             githubURL: edge.node.project.githuburl,
+            categories: edge.node.categories.nodes.map(
+              (node: { name: string }) => {
+                return node.name;
+              }
+            ),
           };
         }),
         posts: posts.edges.map((edge: { node: Post }) => edge.node),

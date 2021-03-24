@@ -61,6 +61,7 @@ export type Project = {
   excerpt: string;
   githubURL: string;
   sourceURL: string;
+  categories: string[];
 };
 
 type Props = {
