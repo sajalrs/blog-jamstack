@@ -57,6 +57,9 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "min-content",
       display: "inline",
       fontFamily: "Kalam",
+      "&:hover": {
+        cursor: "pointer",
+      },
     },
     "title-container": {
       flexGrow: 1,
@@ -141,7 +144,11 @@ const Navbar = ({ menuListItems }: Props) => {
         <Toolbar>
           <div className={classes["title-container"]}>
             <Tooltip title="Sajal Satyal">
-              <Typography variant="h5" className={classes.title}>
+              <Typography
+                variant="h5"
+                className={classes.title}
+                onClick={() => router.push("/")}
+              >
                 सजल सत्याल
               </Typography>
             </Tooltip>
