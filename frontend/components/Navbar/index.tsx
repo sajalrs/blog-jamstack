@@ -30,7 +30,7 @@ import { useRouter } from "next/router";
 import { gql } from "@apollo/client";
 
 export const MENU_QUERY = gql`
-  query MenuQuery{
+  query MenuQuery {
     menuItems {
       nodes {
         url
@@ -44,6 +44,10 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
+      position: "fixed",
+      width: "100vw",
+      top: "0",
+      zIndex: 1,
     },
     "menu-item": {
       width: "100vw",
@@ -88,7 +92,7 @@ type Props = {
   menuListItems: MenuListItem[];
 };
 
-const Navbar = ({menuListItems}: Props) => {
+const Navbar = ({ menuListItems }: Props) => {
   const router = useRouter();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
@@ -172,18 +176,19 @@ const Navbar = ({menuListItems}: Props) => {
                           id="menu-list-grow"
                           onKeyDown={handleListKeyDown}
                         >
-                          {menuListItems && menuListItems.map((item, index) => {
-                            const { title, pageURL } = item;
-                            return (
-                              <MenuItem
-                                key={index}
-                                className={classes["menu-item"]}
-                                onClick={() => router.push(pageURL)}
-                              >
-                                {`${title} `}
-                              </MenuItem>
-                            );
-                          })}
+                          {menuListItems &&
+                            menuListItems.map((item, index) => {
+                              const { title, pageURL } = item;
+                              return (
+                                <MenuItem
+                                  key={index}
+                                  className={classes["menu-item"]}
+                                  onClick={() => router.push(pageURL)}
+                                >
+                                  {`${title} `}
+                                </MenuItem>
+                              );
+                            })}
                         </MenuList>
                       </ClickAwayListener>
                     </Paper>
@@ -193,18 +198,19 @@ const Navbar = ({menuListItems}: Props) => {
             </div>
           ) : (
             <div className={classes["header-options"]}>
-              {menuListItems && menuListItems.map((item, index) => {
-                const { title, pageURL } = item;
-                return (
-                  <Button
-                    key={index}
-                    className={classes["header-options-button"]}
-                    onClick={() => router.push(pageURL)}
-                  >
-                    {`${title} `}
-                  </Button>
-                );
-              })}
+              {menuListItems &&
+                menuListItems.map((item, index) => {
+                  const { title, pageURL } = item;
+                  return (
+                    <Button
+                      key={index}
+                      className={classes["header-options-button"]}
+                      onClick={() => router.push(pageURL)}
+                    >
+                      {`${title} `}
+                    </Button>
+                  );
+                })}
             </div>
           )}
         </Toolbar>

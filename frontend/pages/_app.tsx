@@ -109,6 +109,9 @@ export default function MyApp(props: AppProps) {
             max-width: 100vw;
             overflow-x: hidden;
           }
+          body{
+            padding-top: 65px;
+          }
         `}</style>
         <ThemeProvider theme={theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
