@@ -4,6 +4,7 @@ import { gql } from "@apollo/client";
 import { GetStaticProps, GetStaticPaths } from "next";
 import Typography from "@material-ui/core/Typography";
 import { MENU_QUERY, MenuListItem } from "../../components/Navbar";
+import postStyles from "./post.module.scss";
 const POST_QUERY = gql`
   query PostQuery($slug: String!) {
     postBy(slug: $slug) {
@@ -48,7 +49,7 @@ export type Post = {
   featuredImage: {
     node: {
       sourceUrl: string;
-    }
+    };
   };
 };
 
@@ -61,10 +62,7 @@ type Props = {
 const Post = ({ post, errors, menuListItems }: Props) => {
   if (errors) {
     return (
-      <Layout
-        menuListItems={menuListItems}
-        title="Error"
-      >
+      <Layout menuListItems={menuListItems} title="Error">
         <p>
           <span style={{ color: "red" }}>Error:</span> {errors}
         </p>
@@ -74,9 +72,7 @@ const Post = ({ post, errors, menuListItems }: Props) => {
 
   return (
     <Layout
-      title={`${
-        post ? post.title : "Blog Detail"
-      }`}
+      title={`${post ? post.title : "Blog Detail"}`}
       menuListItems={menuListItems}
     >
       <div
@@ -90,6 +86,7 @@ const Post = ({ post, errors, menuListItems }: Props) => {
           </Typography>
           <div
             // eslint-disable-next-line react/no-danger
+            className={postStyles.post}
             dangerouslySetInnerHTML={{
               __html: post?.content!!,
             }}

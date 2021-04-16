@@ -15,10 +15,10 @@ export const APOLLO_STATE_PROP_NAME = "__APOLLO_STATE__";
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 let wordpressEndpoint = 'http://54.158.195.234/graphql';
 
-// // If we're running on Docker, use the WordPress container hostname instead of localhost.
-// if (process.env.HOME === '/home/node') {
+// // // If we're running on Docker, use the WordPress container hostname instead of localhost.
+// // if (process.env.HOME === '/home/node') {
 //   wordpressEndpoint = 'http://wp-headless:8080/graphql';
-// }
+// // }
 
 const internalAPI = createHttpLink({
   uri: `${process.env.NEXT_PUBLIC_DOMAIN}/api/graphql`,

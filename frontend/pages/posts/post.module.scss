@@ -1,0 +1,14 @@
+.post {
+
+  figure{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    img {
+        max-height: 40rem;
+        max-width: 100%;
+      }
+  }  
+
+}
